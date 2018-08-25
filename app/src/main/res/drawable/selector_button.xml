@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第一个item表示按下的状态，另一个表示平时的状态 ，按下时drawable为shape_button_selected，即选择状态的图标-->
+    <item android:state_pressed="true" android:drawable="@drawable/shape_button_selected"/>
+    <item android:drawable="@drawable/shape_button"/>
+</selector>

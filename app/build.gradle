@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'com.mob.sdk'
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.mymusic.android"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //mock
+            //buildConfigField 'String', 'ENDPOINT', '"http://rap2api.taobao.org/app/mock/14520/"'
+            //buildConfigField 'String', 'RESOURCE_PREFIX', '"http://dev-courses-misuc.ixuea.com/%s"'
+
+            //local
+            //buildConfigField 'String', 'ENDPOINT', '"http://192.168.100.106:3000/v1/"'
+            //buildConfigField 'String', 'ENDPOINT', '"http://10.0.2.2:3000/v1/"'
+            //buildConfigField 'String', 'RESOURCE_PREFIX', '"http://dev-courses-misuc.ixuea.com/%s"'
+
+            //dev
+            buildConfigField 'String', 'ENDPOINT', '"http://api-dev-courses-misuc.ixuea.com/v1/"'
+            buildConfigField 'String', 'RESOURCE_PREFIX', '"http://dev-courses-misuc.ixuea.com/%s"'
+
+            //qa
+            //buildConfigField 'String', 'ENDPOINT', '"http://api-qa-courses-misuc.ixuea.com/v1/"'
+            //buildConfigField 'String', 'RESOURCE_PREFIX', '"http://res-qa-courses-misuc.ixuea.com/%s"'
+
+            //prod
+            //buildConfigField 'String', 'ENDPOINT', '"http://api-courses-misuc.ixuea.com/v1/"'
+            //buildConfigField 'String', 'RESOURCE_PREFIX', '"http://res-courses-misuc.ixuea.com/%s"'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            //prod
+            buildConfigField 'String', 'ENDPOINT', '"http://api-courses-misuc.ixuea.com/v1/"'
+            buildConfigField 'String', 'RESOURCE_PREFIX', '"http://res-courses-misuc.ixuea.com/%s"'
+        }
+    }
+}
+
+dependencies {
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$rootProject.androidSupportVersion"
+    implementation "com.android.support:design:$rootProject.androidSupportVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    //    butterknife,支持BindView，省去findViewById
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.3.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
+
+    //    okhttp
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    //    okhttp，chrome sniffer packet
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
+    //    retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+
+    //    gson
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //rxjava
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+
+    //    okhttp,sniffer packet
+    debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
+    releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+
+    //    apache common lang3
+    implementation 'org.apache.commons:commons-lang3:3.0'
+
+    //    viewPager indicator,https://github.com/ongakuer/CircleIndicator
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+
+    //    event bus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //shareSDK
+    //classpath 'com.mob.sdk:MobSDK:+'
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
