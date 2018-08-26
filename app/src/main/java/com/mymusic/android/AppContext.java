@@ -14,7 +14,7 @@ import com.mymusic.android.util.SharedPreferencesUtil;
 
 
 /**
- * Created by smile on 2018/5/26.
+ * Created by Cheng on 2018/6/26.
  */
 
 public class AppContext extends Application {

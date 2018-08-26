@@ -7,17 +7,24 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mymusic.android.activity.BaseTitleActivity;
 import com.mymusic.android.activity.LoginActivity;
+import com.mymusic.android.activity.SettingsActivity;
 import com.mymusic.android.activity.UserDetailActivity;
 import com.mymusic.android.adapter.HomeAdapter;
 import com.mymusic.android.api.Api;
 import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.event.LogoutSuccessEvent;
 import com.mymusic.android.reactivex.HttpListener;
 import com.mymusic.android.util.UserUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -42,6 +49,8 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
     private ImageView iv_recommend;
     private ImageView iv_video;
 
+    private LinearLayout ll_settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +60,10 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
     @Override
     protected void initViews() {
         super.initViews();
+
+        //也可以延迟注册，比如：当前用户点击到设置界面是才注册
+        EventBus.getDefault().register(this);
+
         iv_avatar = findViewById(R.id.iv_avatar);
         tv_nickname = findViewById(R.id.tv_nickname);
         tv_description = findViewById(R.id.tv_description);
@@ -59,6 +72,8 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
         iv_music = findViewById(R.id.iv_music);
         iv_recommend = findViewById(R.id.iv_recommend);
         iv_video = findViewById(R.id.iv_video);
+
+        ll_settings = findViewById(R.id.ll_settings);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -131,6 +146,8 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
         iv_recommend.setOnClickListener(this);
         iv_video.setOnClickListener(this);
 
+        ll_settings.setOnClickListener(this);
+
         vp.addOnPageChangeListener(this);
         //默认选中第二个页面，设置监听器在选择就会调用监听器
         vp.setCurrentItem(1);
@@ -139,6 +156,10 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_settings:
+                startActivity(SettingsActivity.class);
+                closeDrawer();
+                break;
             case R.id.iv_avatar:
                 avatarClick();
                 closeDrawer();
@@ -160,6 +181,11 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void logoutSuccessEvent(LogoutSuccessEvent event) {
+        showUserInfo();
     }
 
     @Override
@@ -186,5 +212,11 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
 
     private void closeDrawer() {
         drawer.closeDrawer(Gravity.START);
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }

@@ -68,7 +68,12 @@
         </provider>
         <!-- end ya -->
 
-        <activity android:name=".activity.UserDetailActivity"></activity>
+        <activity android:name=".activity.UserDetailActivity"
+            android:label="@string/user_detail"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
