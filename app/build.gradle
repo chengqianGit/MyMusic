@@ -95,6 +95,8 @@ dependencies {
     //shareSDK
     //classpath 'com.mob.sdk:MobSDK:+'
 
+    //Recycler View header
+    //implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

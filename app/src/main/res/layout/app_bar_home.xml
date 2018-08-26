@@ -37,14 +37,14 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/iv_video"
+                    android:id="@+id/iv_music"
                     android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_me_music" />
 
                 <ImageView
-                    android:id="@+id/iv_music"
+                    android:id="@+id/iv_recommend"
                     android:clickable="true"
                     android:layout_marginLeft="@dimen/button_padding"
                     android:layout_marginRight="@dimen/button_padding"
@@ -53,7 +53,7 @@
                     android:src="@drawable/ic_music" />
 
                 <ImageView
-                    android:id="@+id/iv_feed"
+                    android:id="@+id/iv_video"
                     android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
