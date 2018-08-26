@@ -122,11 +122,11 @@ public class Api {
         return service.userDetail(id);
     }
 //
-//    public Observable<DetailResponse<User>> userDetailByNickname(String nickname) {
-//        HashMap<String, String> data = new HashMap<>();
-//        data.put(Consts.NICKNAME, nickname);
-//        return service.userDetailByNickname(data);
-//    }
+    public Observable<DetailResponse<User>> userDetailByNickname(String nickname) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Consts.NICKNAME, nickname);
+        return service.userDetailByNickname(data);
+    }
 //
 //    public Observable<ListResponse<List>> lists() {
 //        HashMap<String, String> query = new HashMap<>();
@@ -166,13 +166,13 @@ public class Api {
 //        return service.like(commentId);
 //    }
 //
-//    public Observable<DetailResponse<User>> follow(String userId) {
-//        return service.follow(userId);
-//    }
-//
-//    public Observable<DetailResponse<User>> unFollow(String userId) {
-//        return service.unFollow(userId);
-//    }
+    public Observable<DetailResponse<User>> follow(String userId) {
+        return service.follow(userId);
+    }
+
+    public Observable<DetailResponse<User>> unFollow(String userId) {
+        return service.unFollow(userId);
+    }
 //
 //    public Observable<DetailResponse<List>> cancelCollectionList(String id) {
 //        return service.cancelCollectionList(id);

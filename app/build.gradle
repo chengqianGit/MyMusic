@@ -57,6 +57,9 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
+    //    palette 调色板
+    implementation "com.android.support:palette-v7:$rootProject.androidSupportVersion"
+
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
@@ -91,6 +94,9 @@ dependencies {
 
     //    event bus
     implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //indicator
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
     //shareSDK
     //classpath 'com.mob.sdk:MobSDK:+'

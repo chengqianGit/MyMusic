@@ -66,13 +66,13 @@ public interface Service {
 //    @GET("topics/{id}.json")
 //    Observable<DetailResponse<Topic>> topicDetail(@Path("id") String id, @QueryMap Map<String, String> data);
 //
-//    /**
-//     * 根据nickname,获取用户详情
-//     * @param data
-//     * @return
-//     */
-//    @GET("users/-1.json")
-//    Observable<DetailResponse<User>> userDetailByNickname(@QueryMap Map<String, String> data);
+    /**
+     * 根据nickname,获取用户详情
+     * @param data
+     * @return
+     */
+    @GET("users/-1.json")
+    Observable<DetailResponse<User>> userDetailByNickname(@QueryMap Map<String, String> data);
 //
 //
 //
@@ -148,20 +148,20 @@ public interface Service {
 //    @POST("likes.json")
 //    Observable<DetailResponse<Comment>> like(@Field("comment_id") String comment_id);
 //
-//    /**
-//     * 关注用户
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("relationships.json")
-//    Observable<DetailResponse<User>> follow(@Field("id") String user_id);
-//
-//    /**
-//     * 取消关注用户
-//     * @return
-//     */
-//    @DELETE("relationships/{user_id}.json")
-//    Observable<DetailResponse<User>> unFollow(@Path("user_id") String user_id);
+    /**
+     * 关注用户
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("relationships.json")
+    Observable<DetailResponse<User>> follow(@Field("id") String user_id);
+
+    /**
+     * 取消关注用户
+     * @return
+     */
+    @DELETE("relationships/{user_id}.json")
+    Observable<DetailResponse<User>> unFollow(@Path("user_id") String user_id);
 //
 //    /**
 //     * 收藏歌曲到歌单
