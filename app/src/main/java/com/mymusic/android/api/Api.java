@@ -5,9 +5,13 @@ package com.mymusic.android.api;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mymusic.android.AppContext;
+import com.mymusic.android.domain.Advertisement;
+import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
+import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.domain.response.ListResponse;
 import com.mymusic.android.interceptor.HttpLoggingInterceptor;
 import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.LogUtil;
@@ -127,11 +131,11 @@ public class Api {
         data.put(Consts.NICKNAME, nickname);
         return service.userDetailByNickname(data);
     }
-//
-//    public Observable<ListResponse<List>> lists() {
-//        HashMap<String, String> query = new HashMap<>();
-//        return service.lists(query);
-//    }
+
+    public Observable<ListResponse<List>> lists() {
+        HashMap<String, String> query = new HashMap<>();
+        return service.lists(query);
+    }
 //
 //    public Observable<ListResponse<SearchHot>> prompt(String content) {
 //        HashMap<String, String> query = new HashMap<>();
@@ -158,9 +162,9 @@ public class Api {
 //        return service.createComment(comment);
 //    }
 //
-//    public Observable<DetailResponse<List>> collectionList(String listId) {
-//        return service.collectionList(listId);
-//    }
+    public Observable<DetailResponse<List>> collectionList(String listId) {
+        return service.collectionList(listId);
+    }
 //
 //    public Observable<DetailResponse<Comment>> like(String commentId) {
 //        return service.like(commentId);
@@ -197,14 +201,14 @@ public class Api {
 //    public Observable<ListResponse<List>> listsMyCollection() {
 //        return service.listsMyCollection();
 //    }
-//
-//    public Observable<ListResponse<Song>> songs() {
-//        return service.songs();
-//    }
-//
-//    public Observable<DetailResponse<Song>> songsDetail(String id) {
-//        return service.songsDetail(id);
-//    }
+
+    public Observable<ListResponse<Song>> songs() {
+        return service.songs();
+    }
+
+    public Observable<DetailResponse<Song>> songsDetail(String id) {
+        return service.songsDetail(id);
+    }
 //
 //    public Observable<DetailResponse<List>> listDetail(String id) {
 //        return service.listDetail(id);
@@ -285,10 +289,10 @@ public class Api {
 //    public Observable<DetailResponse<Video>> videoDetail(String id) {
 //        return service.videoDetail(id);
 //    }
-//
-//    public Observable<ListResponse<Advertisement>> advertisements() {
-//        return service.advertisements();
-//    }
+
+    public Observable<ListResponse<Advertisement>> advertisements() {
+        return service.advertisements();
+    }
 //
 //    public Observable<DetailResponse<Lyric>>  lyricDetailWithBySongId(String id) {
 //        HashMap<String, String> data = new HashMap<>();

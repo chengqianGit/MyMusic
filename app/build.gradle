@@ -60,6 +60,9 @@ dependencies {
     //    palette 调色板
     implementation "com.android.support:palette-v7:$rootProject.androidSupportVersion"
 
+    //    cardview
+    implementation 'com.android.support:cardview-v7:21.0.+'
+
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
@@ -102,7 +105,10 @@ dependencies {
     //classpath 'com.mob.sdk:MobSDK:+'
 
     //Recycler View header
-    //implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
+    implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
+
+    //    banner
+    implementation 'com.youth.banner:banner:1.4.10'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

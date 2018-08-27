@@ -2,9 +2,13 @@ package com.mymusic.android.api;
 
 
 
+import com.mymusic.android.domain.Advertisement;
+import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
+import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.domain.response.ListResponse;
 
 import java.util.Map;
 
@@ -73,29 +77,29 @@ public interface Service {
      */
     @GET("users/-1.json")
     Observable<DetailResponse<User>> userDetailByNickname(@QueryMap Map<String, String> data);
+
+
+
+    /**
+     * 歌单列表
+     * @return
+     */
+    @GET("sheets.json")
+    Observable<ListResponse<List>> lists(@QueryMap Map<String, String> data);
+
+    /**
+     * 我创建的歌单列表
+     * @return
+     */
+    @GET("sheets/create.json")
+    Observable<ListResponse<List>> listsMyCreate();
 //
-//
-//
-//    /**
-//     * 歌单列表
-//     * @return
-//     */
-//    @GET("sheets.json")
-//    Observable<ListResponse<List>> lists(@QueryMap Map<String, String> data);
-//
-//    /**
-//     * 我创建的歌单列表
-//     * @return
-//     */
-//    @GET("sheets/create.json")
-//    Observable<ListResponse<List>> listsMyCreate();
-//
-//    /**
-//     * 我收藏的歌单列表
-//     * @return
-//     */
-//    @GET("sheets/collect.json")
-//    Observable<ListResponse<List>> listsMyCollection();
+    /**
+     * 我收藏的歌单列表
+     * @return
+     */
+    @GET("sheets/collect.json")
+    Observable<ListResponse<List>> listsMyCollection();
 //
 //    /**
 //     * 搜索提示列表
@@ -111,12 +115,12 @@ public interface Service {
 //    @GET("searches/hots.json")
 //    Observable<ListResponse<SearchHot>> searchHot(@QueryMap Map<String, String> data);
 //
-//    /**
-//     * 搜索歌曲
-//     * @return
-//     */
-//    @GET("searches/songs.json")
-//    Observable<ListResponse<Song>> searchSong(@QueryMap Map<String, String> data);
+    /**
+     * 搜索歌曲
+     * @return
+     */
+    @GET("searches/songs.json")
+    Observable<ListResponse<Song>> searchSong(@QueryMap Map<String, String> data);
 //
 //    /**
 //     * 创建歌单
@@ -132,13 +136,13 @@ public interface Service {
 //    @POST("comments.json")
 //    Observable<DetailResponse<Comment>> createComment(@Body Comment data);
 //
-//    /**
-//     * 收藏歌单
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("collections.json")
-//    Observable<DetailResponse<List>> collectionList(@Field("sheet_id") String list_id);
+    /**
+     * 收藏歌单
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("collections.json")
+    Observable<DetailResponse<List>> collectionList(@Field("sheet_id") String list_id);
 //
 //    /**
 //     * 评论点赞
@@ -194,28 +198,28 @@ public interface Service {
 //    Observable<DetailResponse<Comment>> unlike(@Path("id") String id);
 //
 //
-//    /**
-//     * 单曲列表
-//     * @return
-//     */
-//    @GET("songs.json")
-//    Observable<ListResponse<Song>> songs();
+    /**
+     * 单曲列表
+     * @return
+     */
+    @GET("songs.json")
+    Observable<ListResponse<Song>> songs();
 //
-//    /**
-//     * 获取歌曲详情
-//     * @param id
-//     * @return
-//     */
-//    @GET("songs/{id}.json")
-//    Observable<DetailResponse<Song>> songsDetail(@Path("id") String id);
-//
-//    /**
-//     * 获取歌单详情
-//     * @param id
-//     * @return
-//     */
-//    @GET("sheets/{id}.json")
-//    Observable<DetailResponse<List>> listDetail(@Path("id") String id);
+    /**
+     * 获取歌曲详情
+     * @param id
+     * @return
+     */
+    @GET("songs/{id}.json")
+    Observable<DetailResponse<Song>> songsDetail(@Path("id") String id);
+
+    /**
+     * 获取歌单详情
+     * @param id
+     * @return
+     */
+    @GET("sheets/{id}.json")
+    Observable<DetailResponse<List>> listDetail(@Path("id") String id);
 //
 //    /**
 //     * 评论列表
@@ -296,10 +300,10 @@ public interface Service {
 //    @GET("lyrics.json")
 //    Observable<DetailResponse<Lyric>> lyricDetailWithBySongId(@QueryMap Map<String, String> data);
 //
-//    /**
-//     * 广告列表
-//     * @return
-//     */
-//    @GET("advertisements.json")
-//    Observable<ListResponse<Advertisement>> advertisements();
+    /**
+     * 广告列表
+     * @return
+     */
+    @GET("advertisements.json")
+    Observable<ListResponse<Advertisement>> advertisements();
 }

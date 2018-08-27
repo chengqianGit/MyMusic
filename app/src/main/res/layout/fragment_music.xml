@@ -6,26 +6,23 @@
 
     android:orientation="vertical">
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="music!!!"/>
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary"-->
-        <!--android:orientation="vertical">-->
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:orientation="vertical">
 
-        <!--<net.lucode.hackware.magicindicator.MagicIndicator-->
-            <!--android:id="@+id/tabs"-->
-            <!--style="@style/TabLayout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/tab_layout_height"-->
-            <!--android:paddingBottom="@dimen/button_padding" />-->
-    <!--</LinearLayout>-->
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/tabs"
+            style="@style/TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_layout_height"
+            android:paddingBottom="@dimen/button_padding" />
+    </LinearLayout>
 
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/vp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
