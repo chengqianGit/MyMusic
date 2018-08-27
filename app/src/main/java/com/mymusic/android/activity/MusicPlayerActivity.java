@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -11,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.mymusic.android.R;
+import com.mymusic.android.domain.Song;
 import com.mymusic.android.manager.MusicPlayerManager;
 import com.mymusic.android.manager.PlayListManager;
 import com.mymusic.android.parser.Line;
@@ -20,7 +22,7 @@ import com.mymusic.android.view.RecordView;
 
 import java.util.ArrayList;
 
-public class MusicPlayerActivity extends BaseTitleActivity {
+public class MusicPlayerActivity extends BaseTitleActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener {
 
     private ImageView iv_loop_model;
     private ImageView iv_album_bg;
@@ -50,11 +52,18 @@ public class MusicPlayerActivity extends BaseTitleActivity {
     private ArrayList<Line> currentLyricLines;
     //private LyricsParser parser;
     private DownloadManager downloadManager;
+
+    /*
+    text
+     */
+    private boolean isPlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_player);
     }
+
     @Override
     protected void initViews() {
         super.initViews();
@@ -76,5 +85,116 @@ public class MusicPlayerActivity extends BaseTitleActivity {
         rl_player_container = findViewById(R.id.rl_player_container);
         sb_volume = findViewById(R.id.sb_volume);
         lv = findViewById(R.id.lv);
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        iv_download.setOnClickListener(this);
+        iv_play_control.setOnClickListener(this);
+        iv_play_list.setOnClickListener(this);
+        iv_loop_model.setOnClickListener(this);
+        iv_previous.setOnClickListener(this);
+        iv_next.setOnClickListener(this);
+        sb_progress.setOnSeekBarChangeListener(this);
+
+        rv.setOnClickListener(this);
+        lv.setOnClickListener(this);
+        sb_volume.setOnSeekBarChangeListener(this);
+
+        lv.setOnLongClickListener(this);
+        rv.setOnLongClickListener(this);
+
+        //lv.setOnLyricClickListener(this);
+        //playListManager.addPlayListListener(this);
+    }
+
+    private void stopRecordRotate() {
+        rv.stopAlbumRotate();
+        rt.stopThumbAnimation();
+    }
+
+    private void startRecordRotate() {
+        rv.startAlbumRotate();
+        rt.startThumbAnimation();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_play_control:
+                playOrPause();
+                break;
+//            case R.id.iv_play_list:
+//                showPlayListDialog();
+//                break;
+            case R.id.lv:
+                lyric_container.setVisibility(View.GONE);
+                rl_player_container.setVisibility(View.VISIBLE);
+                break;
+            case R.id.rv:
+                lyric_container.setVisibility(View.VISIBLE);
+                rl_player_container.setVisibility(View.GONE);
+                break;
+            case R.id.iv_previous:
+                Song song = playListManager.previous();
+                playListManager.play(song);
+                break;
+            case R.id.iv_next:
+                Song songNext = playListManager.next();
+                playListManager.play(songNext);
+                break;
+//            case R.id.iv_loop_model:
+//                int loopModel = playListManager.changeLoopModel();
+//                showLoopModel(loopModel);
+//                break;
+//            case R.id.iv_download:
+//                download();
+//                break;
+        }
+    }
+
+    private void playOrPause() {
+//        if (musicPlayerManager.isPlaying()) {
+//            pause();
+//        } else {
+//            play();
+//        }
+        if (isPlay) {
+            pause();
+        } else {
+            play();
+        }
+        isPlay = !isPlay;
+    }
+
+    private void play() {
+        //musicPlayerManager.resume();
+        startRecordRotate();
+    }
+
+    private void pause() {
+        //musicPlayerManager.pause();
+        stopRecordRotate();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        return false;
     }
 }
