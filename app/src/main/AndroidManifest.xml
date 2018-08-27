@@ -83,6 +83,12 @@
         <activity android:name=".activity.MusicPlayerActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label=""></activity>
+
+        <service
+            android:name=".service.MusicPlayerService"
+            android:enabled="true"
+            android:exported="false" />
+
     </application>
 
 </manifest>

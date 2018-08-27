@@ -67,6 +67,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.3.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
 
+    //    image process
+    implementation 'jp.wasabeef:glide-transformations:3.3.0'
+
     //    okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
 

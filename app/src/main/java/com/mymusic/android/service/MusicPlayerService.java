@@ -36,30 +36,30 @@ public class MusicPlayerService extends Service {
         return manager;
     }
 
-    /**
-     * 获取一个PlayListManager对象
-     * @param context
-     * @return
-     */
-    public static PlayListManager getPlayListManager(Context context) {
-        startService(context);
-
-        if (MusicPlayerService.playListManager == null) {
-            //初始化列表管理器
-            MusicPlayerService.playListManager = PlayListManagerImpl.getInstance(context);
-        }
-        return playListManager;
-    }
-
-    public static FloatingLayoutManager getFloatingLayoutManager(Context context) {
-        startService(context);
-
-        if (MusicPlayerService.floatingLayoutManager == null) {
-            //初始化浮动窗口管理器
-            //MusicPlayerService.floatingLayoutManager = FloatingLayoutManagerImpl.getInstance(context);
-        }
-        return floatingLayoutManager;
-    }
+//    /**
+//     * 获取一个PlayListManager对象
+//     * @param context
+//     * @return
+//     */
+//    public static PlayListManager getPlayListManager(Context context) {
+//        startService(context);
+//
+//        if (MusicPlayerService.playListManager == null) {
+//            //初始化列表管理器
+//            MusicPlayerService.playListManager = PlayListManagerImpl.getInstance(context);
+//        }
+//        return playListManager;
+//    }
+//
+//    public static FloatingLayoutManager getFloatingLayoutManager(Context context) {
+//        startService(context);
+//
+//        if (MusicPlayerService.floatingLayoutManager == null) {
+//            //初始化浮动窗口管理器
+//            //MusicPlayerService.floatingLayoutManager = FloatingLayoutManagerImpl.getInstance(context);
+//        }
+//        return floatingLayoutManager;
+//    }
 
     private static void startService(Context context) {
         if (!ServiceUtil.isServiceRunning(context)) {
