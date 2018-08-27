@@ -104,7 +104,14 @@
         <!--<item name="tabIndicatorColor">@color/white</item>-->
     </style>
 
-
+    <!--音乐播放SeekBar-->
+    <style name="MusicSeekBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxHeight">@dimen/music_seek_bar_height</item>
+        <item name="android:minHeight">@dimen/music_seek_bar_height</item>
+        <!--<item name="android:progressDrawable">@drawable/shape_music_seek_bar</item>-->
+    </style>
 
     <style name="ItemEntryContainer">
         <item name="android:layout_width">match_parent</item>

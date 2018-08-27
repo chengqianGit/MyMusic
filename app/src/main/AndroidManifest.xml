@@ -76,7 +76,11 @@
             android:name=".activity.SettingsActivity"
             android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.BaseWebViewActivity"
+        <activity
+            android:name=".activity.BaseWebViewActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.MusicPlayerActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label=""></activity>
     </application>
