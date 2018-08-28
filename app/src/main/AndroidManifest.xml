@@ -80,15 +80,19 @@
             android:name=".activity.BaseWebViewActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.MusicPlayerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label=""></activity>
+        <activity
+            android:name=".activity.MusicPlayerActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <service
             android:name=".service.MusicPlayerService"
             android:enabled="true"
             android:exported="false" />
 
+        <activity android:name=".activity.ListDetailActivity"
+            android:label="@string/list_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

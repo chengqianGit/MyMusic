@@ -15,6 +15,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.mymusic.android.R;
 import com.mymusic.android.activity.BaseWebViewActivity;
+import com.mymusic.android.activity.ListDetailActivity;
 import com.mymusic.android.activity.MusicPlayerActivity;
 import com.mymusic.android.adapter.BaseRecyclerViewAdapter;
 import com.mymusic.android.adapter.RecommendAdapter;
@@ -106,22 +107,22 @@ public class RecommendFragment extends BaseCommonFragment implements OnBannerLis
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
-                startActivity(MusicPlayerActivity.class);
-//                Object data =  adapter.getData(position);
-//                if (data instanceof Song) {
-//                    //单曲
-//                    ArrayList<Song> list = new ArrayList<>();
-//                    list.add((Song) data);
-//                    //playListManager.setPlayList(list);
-//                    //playListManager.play((Song) data);
-//                    startActivity(MusicPlayerActivity.class);
-//                } else if (data instanceof List) {
-//                    //歌单
-//                    //startActivityExtraId(ListDetailActivity.class,((List) data).getId());
-//                } else if (data instanceof Advertisement) {
-//                    //广告
-//                    BaseWebViewActivity.start(getMainActivity(),((Advertisement) data).getTitle(),((Advertisement) data).getUri());
-//                }
+                //startActivity(MusicPlayerActivity.class);
+                Object data =  adapter.getData(position);
+                if (data instanceof Song) {
+                    //单曲
+                    //ArrayList<Song> list = new ArrayList<>();
+                    //list.add((Song) data);
+                    //playListManager.setPlayList(list);
+                    //playListManager.play((Song) data);
+                    startActivity(MusicPlayerActivity.class);
+                } else if (data instanceof List) {
+                    //歌单
+                    startActivityExtraId(ListDetailActivity.class,((List) data).getId());
+                } else if (data instanceof Advertisement) {
+                    //广告
+                    BaseWebViewActivity.start(getMainActivity(),((Advertisement) data).getTitle(),((Advertisement) data).getUri());
+                }
             }
         });
 

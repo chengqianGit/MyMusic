@@ -209,10 +209,10 @@ public class Api {
     public Observable<DetailResponse<Song>> songsDetail(String id) {
         return service.songsDetail(id);
     }
-//
-//    public Observable<DetailResponse<List>> listDetail(String id) {
-//        return service.listDetail(id);
-//    }
+
+    public Observable<DetailResponse<List>> listDetail(String id) {
+        return service.listDetail(id);
+    }
 //
 //    public Observable<ListResponse<Feed>> feedsByTopic(String topic) {
 //        HashMap<String, String> data = new HashMap<>();
