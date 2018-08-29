@@ -7,7 +7,7 @@ import com.mymusic.android.listener.PlayListListener;
 import java.util.List;
 
 /**
- * Created by smile on 2018/6/23.
+ * Created by Cheng on 2018/6/23.
  */
 
 public interface PlayListManager {

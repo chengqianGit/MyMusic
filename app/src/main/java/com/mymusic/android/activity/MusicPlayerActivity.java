@@ -22,12 +22,17 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.mymusic.android.R;
+import com.mymusic.android.adapter.BaseRecyclerViewAdapter;
+import com.mymusic.android.adapter.PlayListAdapter;
 import com.mymusic.android.domain.Lyric;
 import com.mymusic.android.domain.Song;
+import com.mymusic.android.fragment.PlayListDialogFragment;
 import com.mymusic.android.listener.OnLyricClickListener;
 import com.mymusic.android.listener.OnMusicPlayerListener;
+import com.mymusic.android.listener.PlayListListener;
 import com.mymusic.android.manager.MusicPlayerManager;
 import com.mymusic.android.manager.PlayListManager;
+import com.mymusic.android.manager.impl.PlayListManagerImpl;
 import com.mymusic.android.parser.Line;
 import com.mymusic.android.parser.LyricsParser;
 import com.mymusic.android.service.MusicPlayerService;
@@ -46,7 +51,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
-public class MusicPlayerActivity extends BaseTitleActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener, OnMusicPlayerListener, OnLyricClickListener {
+public class MusicPlayerActivity extends BaseTitleActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, View.OnLongClickListener, OnMusicPlayerListener, OnLyricClickListener, PlayListListener {
 
     private ImageView iv_loop_model;
     private ImageView iv_album_bg;
@@ -71,16 +76,13 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
 
     private AudioManager audioManager;
     private PlayListManager playListManager;
-    //private PlayListDialogFragment playListDialog;
+    private PlayListDialogFragment playListDialog;
 
     private ArrayList<Line> currentLyricLines;
     private LyricsParser parser;
     private DownloadManager downloadManager;
 
-    /*
-    text
-     */
-    private boolean isPlay;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +132,7 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
         rv.setOnLongClickListener(this);
 
         lv.setOnLyricClickListener(this);
-        //playListManager.addPlayListListener(this);
+        playListManager.addPlayListListener(this);
     }
     @Override
     protected void onResume() {
@@ -150,16 +152,16 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
         //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
 
         musicPlayerManager = MusicPlayerService.getMusicPlayerManager(getApplicationContext());
-        //playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
+        playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
 
         //音量
         audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
         setVolume();
-//
-//        Song data = this.playListManager.getPlayData();
-//        setFirstData(data);
-//
-//        showLoopModel(playListManager.getLoopModel());
+
+        Song data = this.playListManager.getPlayData();
+        setFirstData(data);
+
+        showLoopModel(playListManager.getLoopModel());
 //
 //        //下载
 //        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
@@ -242,9 +244,9 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
             case R.id.iv_play_control:
                 playOrPause();
                 break;
-//            case R.id.iv_play_list:
-//                showPlayListDialog();
-//                break;
+            case R.id.iv_play_list:
+                showPlayListDialog();
+                break;
             case R.id.lv:
                 lyric_container.setVisibility(View.GONE);
                 rl_player_container.setVisibility(View.VISIBLE);
@@ -261,16 +263,62 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
                 Song songNext = playListManager.next();
                 playListManager.play(songNext);
                 break;
-//            case R.id.iv_loop_model:
-//                int loopModel = playListManager.changeLoopModel();
-//                showLoopModel(loopModel);
-//                break;
+            case R.id.iv_loop_model:
+                int loopModel = playListManager.changeLoopModel();
+                showLoopModel(loopModel);
+                break;
 //            case R.id.iv_download:
 //                download();
 //                break;
         }
     }
+    private void showLoopModel(int model) {
+        switch (model) {
+            case PlayListManagerImpl.MODEL_LOOP_RANDOM:
+                iv_loop_model.setImageResource(R.drawable.ic_music_play_random);
+                break;
+            case PlayListManagerImpl.MODEL_LOOP_LIST:
+                iv_loop_model.setImageResource(R.drawable.ic_music_play_list);
+                break;
+            case PlayListManagerImpl.MODEL_LOOP_ONE:
+                iv_loop_model.setImageResource(R.drawable.ic_music_play_repleat_one);
+                break;
+        }
 
+    }
+    private void showPlayListDialog() {
+        //if (playListDialog==null) {
+        playListDialog = new PlayListDialogFragment();
+        playListDialog.setCurrentSong(playListManager.getPlayData());
+        playListDialog.setData(playListManager.getPlayList());
+        playListDialog.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
+                playListDialog.dismiss();
+                playListManager.play(playListManager.getPlayList().get(position));
+                playListDialog.setCurrentSong(playListManager.getPlayData());
+                playListDialog.notifyDataSetChanged();
+            }
+        });
+        playListDialog.setOnRemoveClickListener(new PlayListAdapter.OnRemoveClickListener() {
+            @Override
+            public void onRemoveClick(int position) {
+                Song currentSong = playListManager.getPlayList().get(position);
+                playListManager.delete(currentSong);
+                playListDialog.removeData(position);
+                currentSong = playListManager.getPlayData();
+                if (currentSong == null) {
+                    playListManager.destroy();
+                    finish();
+                } else {
+                    playListDialog.setCurrentSong(currentSong);
+                }
+            }
+        });
+        //}
+
+        playListDialog.show(getSupportFragmentManager(), "dialog");
+    }
     private void playOrPause() {
         if (musicPlayerManager.isPlaying()) {
             pause();
@@ -280,15 +328,16 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
     }
 
     private void play() {
-        //musicPlayerManager.resume();
-        startRecordRotate();
-        musicPlayerManager.play("http://dev-courses-misuc.ixuea.com/assets/s2.mp3",new Song());
+//        //musicPlayerManager.resume();
+//        startRecordRotate();
+//        musicPlayerManager.play("http://dev-courses-misuc.ixuea.com/assets/s2.mp3",new Song());
+        musicPlayerManager.resume();
     }
 
     private void pause() {
+//        musicPlayerManager.pause();
+//        stopRecordRotate();
         musicPlayerManager.pause();
-        stopRecordRotate();
-
     }
 
     @Override
@@ -394,5 +443,10 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
         if (!musicPlayerManager.isPlaying()) {
             musicPlayerManager.resume();
         }
+    }
+
+    @Override
+    public void onDataReady(Song song) {
+        setLyric(song.getLyric());
     }
 }

@@ -4,7 +4,7 @@ package com.mymusic.android.listener;
 import com.mymusic.android.domain.Song;
 
 /**
- * Created by smile on 2018/5/28.
+ * Created by Cheng on 2018/6/28.
  */
 
 public interface PlayListListener {

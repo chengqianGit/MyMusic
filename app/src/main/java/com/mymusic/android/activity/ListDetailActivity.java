@@ -1,5 +1,6 @@
 package com.mymusic.android.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,7 +31,10 @@ import com.mymusic.android.api.Api;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.manager.MusicPlayerManager;
+import com.mymusic.android.manager.PlayListManager;
 import com.mymusic.android.reactivex.HttpListener;
+import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.DataUtil;
 import com.mymusic.android.util.ImageUtil;
@@ -40,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListDetailActivity extends BaseTitleActivity implements SongAdapter.OnSongListener {
+public class ListDetailActivity extends BaseTitleActivity implements SongAdapter.OnSongListener, View.OnClickListener {
 
     private LRecyclerView rv;
     private ImageView iv_icon;
@@ -60,6 +64,8 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
     private SongAdapter adapter;
     private LRecyclerViewAdapter adapterWrapper;
     private List data;
+    private PlayListManager playListManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,14 +90,16 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
     @Override
     protected void initDatas() {
         super.initDatas();
+        playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
+        //musicPlayer = MusicPlayerService.getInstance(getApplicationContext());
         id = getIntent().getStringExtra(Consts.ID);
         //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
 
-        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail, getSupportFragmentManager());
+        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail, getSupportFragmentManager(), playListManager);
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
-                //play(position);
+                play(position);
             }
         });
         adapter.setOnSongListener(this);
@@ -106,6 +114,21 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
 
         fetchData();
     }
+    @Override
+    protected void initListener() {
+        super.initListener();
+        ll_play_all_container.setOnClickListener(this);
+        ll_comment_container.setOnClickListener(this);
+        bt_collection.setOnClickListener(this);
+    }
+    private void play(int position) {
+        Song data = adapter.getData(position);
+        playListManager.setPlayList(adapter.getDatas());
+        playListManager.play(data);
+        adapter.notifyDataSetChanged();
+        startActivity(MusicPlayerActivity.class);
+    }
+
     private void fetchData() {
         Api.getInstance().listDetail(id)
                 .subscribeOn(Schedulers.io())
@@ -212,5 +235,26 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
     @Override
     public void onDeleteClick(Song song) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_play_all_container:
+                play(0);
+                break;
+            case R.id.bt_collection:
+                //collectionList();
+                break;
+            case R.id.ll_comment_container:
+//                Intent intent = new Intent(this, CommentListActivity.class);
+//                intent.putExtra(Consts.LIST_ID,id);
+//                intent.putExtra(Consts.STYLE,Consts.STYLE_LIST);
+//                startActivity(intent);
+                break;
+            default:
+                //super.onClick(v);
+                break;
+        }
     }
 }

@@ -44,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
 import java.util.List;
 import java.util.Random;
 
@@ -57,7 +58,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by smile on 2018/5/30.
  */
 
-public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListener, OnFloatingListener {
+public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListener{
     /**
      * 列表循环
      */
@@ -117,8 +118,8 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         sp = SharedPreferencesUtil.getInstance(context);
 
         init();
-        initMediaSession();
-        initNotificationReceiver();
+//        initMediaSession();
+//        initNotificationReceiver();
 
         //floatingLayoutManager=MusicPlayerService.getFloatingLayoutManager(context);
         //floatingLayoutManager.setOnFloatingListener(this);
@@ -299,7 +300,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
 //                musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
 //            }
 
-            //musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
+            musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
 
         }
         sp.setLastPlaySongId(currentSong.getId());
@@ -446,7 +447,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         }
         //floatingLayoutManager.onProgress(progress,total);
 
-        WidgetUtil.onProgress(context,progress,total);
+        //WidgetUtil.onProgress(context,progress,total);
     }
 
     private void updateMediaInfo() {
@@ -523,12 +524,12 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
                     }
                 });
 
-        //更新Android系统媒体控制中心的信息
-        updateAndroidMediaInfo();
-
-        //updateFloatingLayoutInfo();
-
-        WidgetUtil.onPrepared(context,data);
+//        //更新Android系统媒体控制中心的信息
+//        updateAndroidMediaInfo();
+//
+//        //updateFloatingLayoutInfo();
+//
+//        WidgetUtil.onPrepared(context,data);
     }
 
     private void updateAndroidMediaInfo() {
@@ -554,7 +555,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
             //因为我们使用了MediaPlayer的循环模式
             //如果没有使用它，那就要在这里继续播放当前音乐
             //但这样理论上来说要更耗费资源(只是理论，具体的暂时没研究)
-
+            play(currentSong);
         } else {
             //其他模式，就要播放下一首
             Song next = next();
@@ -613,23 +614,23 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         }
     };
 
-    //OnFloatingListener
-    @Override
-    public void onPlayClick() {
-        playOrPause();
-    }
-
-    @Override
-    public void onPrevious() {
-        play(PlayListManagerImpl.this.previous());
-    }
-
-    @Override
-    public void onNext() {
-        play(PlayListManagerImpl.this.next());
-    }
-
-    //end OnFloatingListener
+//    //OnFloatingListener
+//    @Override
+//    public void onPlayClick() {
+//        playOrPause();
+//    }
+//
+//    @Override
+//    public void onPrevious() {
+//        play(PlayListManagerImpl.this.previous());
+//    }
+//
+//    @Override
+//    public void onNext() {
+//        play(PlayListManagerImpl.this.next());
+//    }
+//
+//    //end OnFloatingListener
 
     public class MediaSessionCallback extends MediaSessionCompat.Callback {
 

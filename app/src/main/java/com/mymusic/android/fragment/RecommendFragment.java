@@ -55,7 +55,7 @@ public class RecommendFragment extends BaseCommonFragment implements OnBannerLis
     private LinearLayout ll_day_container;
     private TextView tv_day;
     private java.util.List<Advertisement> bannerData;
-    //private PlayListManager playListManager;
+    private PlayListManager playListManager;
 
     public static RecommendFragment newInstance() {
 
@@ -101,7 +101,7 @@ public class RecommendFragment extends BaseCommonFragment implements OnBannerLis
     @Override
     protected void initDatas() {
         super.initDatas();
-        //playListManager = MusicPlayerService.getPlayListManager(getActivity().getApplicationContext());
+        playListManager = MusicPlayerService.getPlayListManager(getActivity().getApplicationContext());
 
         adapter = new RecommendAdapter(getActivity());
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
@@ -111,10 +111,10 @@ public class RecommendFragment extends BaseCommonFragment implements OnBannerLis
                 Object data =  adapter.getData(position);
                 if (data instanceof Song) {
                     //单曲
-                    //ArrayList<Song> list = new ArrayList<>();
-                    //list.add((Song) data);
-                    //playListManager.setPlayList(list);
-                    //playListManager.play((Song) data);
+                    ArrayList<Song> list = new ArrayList<>();
+                    list.add((Song) data);
+                    playListManager.setPlayList(list);
+                    playListManager.play((Song) data);
                     startActivity(MusicPlayerActivity.class);
                 } else if (data instanceof List) {
                     //歌单
