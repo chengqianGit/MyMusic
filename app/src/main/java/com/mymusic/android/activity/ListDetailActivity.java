@@ -44,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListDetailActivity extends BaseTitleActivity implements SongAdapter.OnSongListener, View.OnClickListener {
+public class ListDetailActivity extends BaseMusicPlayerActivity implements SongAdapter.OnSongListener, View.OnClickListener {
 
     private LRecyclerView rv;
     private ImageView iv_icon;
@@ -64,7 +64,7 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
     private SongAdapter adapter;
     private LRecyclerViewAdapter adapterWrapper;
     private List data;
-    private PlayListManager playListManager;
+    //private PlayListManager playListManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,8 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
     @Override
     protected void initDatas() {
         super.initDatas();
-        playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
+        //playListManager在父类的initData中已经初始化过了
+        //playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
         //musicPlayer = MusicPlayerService.getInstance(getApplicationContext());
         id = getIntent().getStringExtra(Consts.ID);
         //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
@@ -253,7 +254,7 @@ public class ListDetailActivity extends BaseTitleActivity implements SongAdapter
 //                startActivity(intent);
                 break;
             default:
-                //super.onClick(v);
+                super.onClick(v);
                 break;
         }
     }

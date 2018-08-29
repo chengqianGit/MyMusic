@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mymusic.android.activity.BaseMusicPlayerActivity;
 import com.mymusic.android.activity.BaseTitleActivity;
 import com.mymusic.android.activity.LoginActivity;
 import com.mymusic.android.activity.SettingsActivity;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseTitleActivity implements View.OnClickListener ,ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseMusicPlayerActivity implements View.OnClickListener ,ViewPager.OnPageChangeListener {
 
     private DrawerLayout drawer;
 
@@ -154,14 +155,10 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.ll_settings:
                 startActivity(SettingsActivity.class);
-                closeDrawer();
-                break;
-            case R.id.iv_avatar:
-                avatarClick();
                 closeDrawer();
                 break;
             case R.id.iv_music:
@@ -173,7 +170,21 @@ public class MainActivity extends BaseTitleActivity implements View.OnClickListe
             case R.id.iv_video:
                 vp.setCurrentItem(2, true);
                 break;
+            case R.id.iv_avatar:
+                avatarClick();
+                closeDrawer();
+                break;
+//            case R.id.ll_my_friend:
+//                //startActivity(MyFriendActivity.class);
+//                closeDrawer();
+//                break;
+//            case R.id.ll_message_container:
+//                //startActivity(MessageActivity.class);
+//                closeDrawer();
+//                break;
             default:
+                //如果当前界面没有处理，就调用父类的方法
+                super.onClick(v);
                 break;
         }
     }
