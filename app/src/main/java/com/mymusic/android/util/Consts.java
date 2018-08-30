@@ -94,7 +94,7 @@ public class Consts {
     //public static final String OSS_BUCKET_NAME = "dev-courses-misuc";
     public static final int DEFAULT_MESSAGE_COUNT = 10;
     public static final String AVATAR = "AVATAR";
-    //public static final String ACTION_MESSAGE = "com.ixuea.courses.mymusic.ACTION_MESSAGE";
+    public static final String ACTION_MESSAGE = "com.mymusic.android.ACTION_MESSAGE";
     public static final String ACTION_MUSIC_PLAYER = "com.mymusic.android.ACTION_MUSIC_PLAYER";
     public static final int DEFAULT_PAGE_SIZE = 10;
 }

@@ -1,5 +1,6 @@
 package com.mymusic.android;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.mymusic.android.activity.BaseMusicPlayerActivity;
 import com.mymusic.android.activity.BaseTitleActivity;
 import com.mymusic.android.activity.LoginActivity;
+import com.mymusic.android.activity.MusicPlayerActivity;
 import com.mymusic.android.activity.SettingsActivity;
 import com.mymusic.android.activity.UserDetailActivity;
 import com.mymusic.android.adapter.HomeAdapter;
@@ -21,6 +23,7 @@ import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.response.DetailResponse;
 import com.mymusic.android.event.LogoutSuccessEvent;
 import com.mymusic.android.reactivex.HttpListener;
+import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.UserUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -56,6 +59,7 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        processIntent(getIntent());
     }
 
     @Override
@@ -153,7 +157,22 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         //默认选中第二个页面，设置监听器在选择就会调用监听器
         vp.setCurrentItem(1);
     }
+    private void processIntent(Intent intent) {
+        if (Consts.ACTION_MESSAGE.equals(intent.getAction())) {
+            //要跳转到聊天界面
+            String id = getIntent().getStringExtra(Consts.ID);
+            //ConversationActivity.start(getActivity(),id);
+        } else if (Consts.ACTION_MUSIC_PLAYER.equals(intent.getAction())) {
+            startActivity(MusicPlayerActivity.class);
+        }
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        showUserInfo();
+        processIntent(intent);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

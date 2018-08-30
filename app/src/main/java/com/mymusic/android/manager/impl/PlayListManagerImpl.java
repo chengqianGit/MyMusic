@@ -35,6 +35,7 @@ import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.DataUtil;
 import com.mymusic.android.util.ImageUtil;
+import com.mymusic.android.util.NotificationUtil;
 import com.mymusic.android.util.OrmUtil;
 import com.mymusic.android.util.SharedPreferencesUtil;
 import com.mymusic.android.util.WidgetUtil;
@@ -118,8 +119,8 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         sp = SharedPreferencesUtil.getInstance(context);
 
         init();
-//        initMediaSession();
-//        initNotificationReceiver();
+        initMediaSession();
+        initNotificationReceiver();
 
         //floatingLayoutManager=MusicPlayerService.getFloatingLayoutManager(context);
         //floatingLayoutManager.setOnFloatingListener(this);
@@ -127,6 +128,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
     }
 
 
+    //创建通知接收器
     private void initNotificationReceiver() {
         notificationMusicReceiver = new BroadcastReceiver() {
             @Override
@@ -481,21 +483,21 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
     @Override
     public void onPaused(Song data) {
         //设置状态，当前播放位置，播放速度
-//        if (currentSong!=null) {
-//            stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, getPlayList().indexOf(currentSong), 1.0f);
-//            mediaSession.setPlaybackState(stateBuilder.build());
-//            NotificationUtil.showMusicNotification(context,currentSong,false);
+        if (currentSong!=null) {
+            stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, getPlayList().indexOf(currentSong), 1.0f);
+            mediaSession.setPlaybackState(stateBuilder.build());
+            NotificationUtil.showMusicNotification(context,currentSong,false);
 //            floatingLayoutManager.onPaused(data);
 //
 //            WidgetUtil.onPaused(context);
-//        }
+        }
     }
 
     @Override
     public void onPlaying(Song data) {
-//        stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING, getPlayList().indexOf(currentSong), 1.0f);
-//        mediaSession.setPlaybackState(stateBuilder.build());
-//        NotificationUtil.showMusicNotification(context,currentSong,true);
+        stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING, getPlayList().indexOf(currentSong), 1.0f);
+        mediaSession.setPlaybackState(stateBuilder.build());
+        NotificationUtil.showMusicNotification(context,currentSong,true);
 //        floatingLayoutManager.onPlaying(data);
 //
 //        WidgetUtil.onPlaying(context);
@@ -525,7 +527,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
                 });
 
 //        //更新Android系统媒体控制中心的信息
-//        updateAndroidMediaInfo();
+        updateAndroidMediaInfo();
 //
 //        //updateFloatingLayoutInfo();
 //
