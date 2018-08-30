@@ -10,8 +10,10 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.mymusic.android.domain.Lyric;
+
 import com.mymusic.android.parser.Line;
+import com.mymusic.android.parser.domain.Lyric;
+import com.mymusic.android.util.DensityUtil;
 
 import java.util.TreeMap;
 
@@ -32,7 +34,7 @@ public class MultiLineLyricView extends View {
     /**
      * 默认歌词显示的内容
      */
-    private static final String DEFAULT_TIP_TEXT = "我的云音乐,听你想听";
+    private static final String DEFAULT_TIP_TEXT = "知我音乐,听我想听";
 
     /**
      * 歌词
@@ -110,7 +112,7 @@ public class MultiLineLyricView extends View {
 
 
     private void init() {
-        //fontSize= DensityUtil.dip2px(getContext(), DEFAULT_LYRIC_FONT_SIZE);
+        fontSize= DensityUtil.dip2px(getContext(), DEFAULT_LYRIC_FONT_SIZE);
         textColor= Color.parseColor("#F93F45");
 
         //初始化画笔
@@ -182,47 +184,47 @@ public class MultiLineLyricView extends View {
 
 
         //当前歌词高亮
-//        if (lyric.isAccurate()) {
-//            canvas.drawText(line.getLineLyrics(), x, y, backgroundTextPaint);
-//
-//            if (lyricCurrentWordIndex == -1) {
-//                //该行已经播放完了
-//                lineLyricPlayedWidth=textWidth;
-//            } else {
-//                String[] lyricsWord = line.getLyricsWord();
-//                int[] wordDuration = line.getWordDuration();
-//
-//                //获取当前时间前面的文字
-//                String beforeText=line.getLineLyrics().substring(0,lyricCurrentWordIndex);
-//                float beforeTextWidth=getTextWidth(foregroundTextPaint, beforeText);
-//
-//                //当前字
-//                String currentWord=lyricsWord[lyricCurrentWordIndex];
-//                float currentWordTextWidth=getTextWidth(foregroundTextPaint, currentWord);
-//
-//                //当前字已经演唱的宽度
-//                float currentWordWidth = currentWordTextWidth / wordDuration[lyricCurrentWordIndex] * wordPlayedTime;
-//
-//                lineLyricPlayedWidth = beforeTextWidth + currentWordWidth;
-//            }
-//
-//            canvas.save();
-//            //裁剪一个矩形用来绘制已经唱的歌词
-//            canvas.clipRect(x, y - textHeight, x + lineLyricPlayedWidth,
-//                    y + textHeight);
-//
-//
-//            //这个矩形包是文字的高度+行高
-//            //canvas.drawRect(x, y - textHeight, x + lineLyricPlayedWidth,
-//            //        y + textHeight,foregroundTextPaint);
-//
-//            canvas.drawText(line.getLineLyrics(), x, y, foregroundTextPaint);
-//
-//            canvas.restore();
-//        } else {
-//            //精确到行
-//            canvas.drawText(line.getLineLyrics(), x, y, foregroundTextPaint);
-//        }
+        if (lyric.isAccurate()) {
+            canvas.drawText(line.getLineLyrics(), x, y, backgroundTextPaint);
+
+            if (lyricCurrentWordIndex == -1) {
+                //该行已经播放完了
+                lineLyricPlayedWidth=textWidth;
+            } else {
+                String[] lyricsWord = line.getLyricsWord();
+                int[] wordDuration = line.getWordDuration();
+
+                //获取当前时间前面的文字
+                String beforeText=line.getLineLyrics().substring(0,lyricCurrentWordIndex);
+                float beforeTextWidth=getTextWidth(foregroundTextPaint, beforeText);
+
+                //当前字
+                String currentWord=lyricsWord[lyricCurrentWordIndex];
+                float currentWordTextWidth=getTextWidth(foregroundTextPaint, currentWord);
+
+                //当前字已经演唱的宽度
+                float currentWordWidth = currentWordTextWidth / wordDuration[lyricCurrentWordIndex] * wordPlayedTime;
+
+                lineLyricPlayedWidth = beforeTextWidth + currentWordWidth;
+            }
+
+            canvas.save();
+            //裁剪一个矩形用来绘制已经唱的歌词
+            canvas.clipRect(x, y - textHeight, x + lineLyricPlayedWidth,
+                    y + textHeight);
+
+
+            //这个矩形包是文字的高度+行高
+            //canvas.drawRect(x, y - textHeight, x + lineLyricPlayedWidth,
+            //        y + textHeight,foregroundTextPaint);
+
+            canvas.drawText(line.getLineLyrics(), x, y, foregroundTextPaint);
+
+            canvas.restore();
+        } else {
+            //精确到行
+            canvas.drawText(line.getLineLyrics(), x, y, foregroundTextPaint);
+        }
     }
 
     /**
@@ -258,7 +260,7 @@ public class MultiLineLyricView extends View {
 
     public void setData(Lyric lyric) {
         this.lyric = lyric;
-        //this.lyricsLines = lyric.getLyrics();
+        this.lyricsLines = lyric.getLyrics();
     }
 
     public void show(long position) {
@@ -269,24 +271,24 @@ public class MultiLineLyricView extends View {
 
         this.position = position;
 
-        //int newLineNumber = lyric.getLineNumber(position);
+        int newLineNumber = lyric.getLineNumber(position);
 
-//        if (newLineNumber != lineNumber) {
-//            lineNumber = newLineNumber;
-//            //重置变量
-//            lineLyricPlayedWidth = 0;
-//            lyricCurrentWordIndex = 0;
+        if (newLineNumber != lineNumber) {
+            lineNumber = newLineNumber;
+            //重置变量
+            lineLyricPlayedWidth = 0;
+            lyricCurrentWordIndex = 0;
 
-//        }
+        }
 
-//        if (lyric.isAccurate()) {
-//            //获取当前时间是该行的的第几个字
-//            lyricCurrentWordIndex = lyric.getWordIndex(lineNumber, position);
-//
-//            //获取当前时间的该字，已经播放的时间
-//            wordPlayedTime = lyric.getWordPlayedTime(lineNumber, position);
-//        }
-//        invalidate();
+        if (lyric.isAccurate()) {
+            //获取当前时间是该行的的第几个字
+            lyricCurrentWordIndex = lyric.getWordIndex(lineNumber, position);
+
+            //获取当前时间的该字，已经播放的时间
+            wordPlayedTime = lyric.getWordPlayedTime(lineNumber, position);
+        }
+        invalidate();
     }
 
     private boolean isEmptyLyric() {

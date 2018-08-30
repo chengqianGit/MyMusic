@@ -59,7 +59,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by smile on 2018/5/30.
  */
 
-public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListener{
+public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListener,OnFloatingListener{
     /**
      * 列表循环
      */
@@ -89,7 +89,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
     private static final long DEFAULT_SAVE_PROGRESS_TIME = 1000;
 
     private final MusicPlayerManager musicPlayer;
-    //private final FloatingLayoutManager floatingLayoutManager;
+    private final FloatingLayoutManager floatingLayoutManager;
     //private final DownloadManager downloadManager;
     private List<Song> datum = new LinkedList<>();
 
@@ -122,8 +122,8 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         initMediaSession();
         initNotificationReceiver();
 
-        //floatingLayoutManager=MusicPlayerService.getFloatingLayoutManager(context);
-        //floatingLayoutManager.setOnFloatingListener(this);
+        floatingLayoutManager=MusicPlayerService.getFloatingLayoutManager(context);
+        floatingLayoutManager.setOnFloatingListener(this);
         //downloadManager = DownloadService.getDownloadManager(context);
     }
 
@@ -142,7 +142,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
                 }else if (Consts.ACTION_NEXT.equals(intent.getAction())) {
                     play(next());
                 }else if (Consts.ACTION_LYRIC.equals(intent.getAction())) {
-                    //showOrHideGlobalLyric();
+                    showOrHideGlobalLyric();
                 }
             }
         };
@@ -165,16 +165,16 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         }
     }
 
-//    /**
-//     * 显示或者隐藏桌面歌词
-//     */
-//    private void showOrHideGlobalLyric() {
-//        if (floatingLayoutManager.isShowing()) {
-//            floatingLayoutManager.hide();
-//        } else {
-//            floatingLayoutManager.show();
-//        }
-//    }
+    /**
+     * 显示或者隐藏桌面歌词
+     */
+    private void showOrHideGlobalLyric() {
+        if (floatingLayoutManager.isShowing()) {
+            floatingLayoutManager.hide();
+        } else {
+            floatingLayoutManager.show();
+        }
+    }
 
     private void initMediaSession() {
         mediaSession = new MediaSessionCompat(context, TAG);
@@ -447,7 +447,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
 
             lastTime = currentTimeMillis;
         }
-        //floatingLayoutManager.onProgress(progress,total);
+        floatingLayoutManager.onProgress(progress,total);
 
         //WidgetUtil.onProgress(context,progress,total);
     }
@@ -487,7 +487,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
             stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED, getPlayList().indexOf(currentSong), 1.0f);
             mediaSession.setPlaybackState(stateBuilder.build());
             NotificationUtil.showMusicNotification(context,currentSong,false);
-//            floatingLayoutManager.onPaused(data);
+            floatingLayoutManager.onPaused(data);
 //
 //            WidgetUtil.onPaused(context);
         }
@@ -498,7 +498,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING, getPlayList().indexOf(currentSong), 1.0f);
         mediaSession.setPlaybackState(stateBuilder.build());
         NotificationUtil.showMusicNotification(context,currentSong,true);
-//        floatingLayoutManager.onPlaying(data);
+        floatingLayoutManager.onPlaying(data);
 //
 //        WidgetUtil.onPlaying(context);
     }
@@ -520,7 +520,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
                             //将数据设置到歌曲上
                             data.setLyric(songDetailResponse.getData().getLyric());
                             orm.saveSong(data,sp.getUserId());
-                            //updateFloatingLayoutInfo();
+                            updateFloatingLayoutInfo();
                             sendDataReadyMessage();
                         }
                     }
@@ -529,7 +529,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
 //        //更新Android系统媒体控制中心的信息
         updateAndroidMediaInfo();
 //
-//        //updateFloatingLayoutInfo();
+        updateFloatingLayoutInfo();
 //
 //        WidgetUtil.onPrepared(context,data);
     }
@@ -546,9 +546,9 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         });
     }
 
-//    private void updateFloatingLayoutInfo() {
-//        floatingLayoutManager.update(currentSong);
-//    }
+    private void updateFloatingLayoutInfo() {
+        floatingLayoutManager.update(currentSong);
+    }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
@@ -616,23 +616,23 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
         }
     };
 
-//    //OnFloatingListener
-//    @Override
-//    public void onPlayClick() {
-//        playOrPause();
-//    }
-//
-//    @Override
-//    public void onPrevious() {
-//        play(PlayListManagerImpl.this.previous());
-//    }
-//
-//    @Override
-//    public void onNext() {
-//        play(PlayListManagerImpl.this.next());
-//    }
-//
-//    //end OnFloatingListener
+    //OnFloatingListener
+    @Override
+    public void onPlayClick() {
+        playOrPause();
+    }
+
+    @Override
+    public void onPrevious() {
+        play(PlayListManagerImpl.this.previous());
+    }
+
+    @Override
+    public void onNext() {
+        play(PlayListManagerImpl.this.next());
+    }
+
+    //end OnFloatingListener
 
     public class MediaSessionCallback extends MediaSessionCompat.Callback {
 

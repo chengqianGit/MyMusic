@@ -51,15 +51,15 @@ public class MusicPlayerService extends Service {
         return playListManager;
     }
 //
-//    public static FloatingLayoutManager getFloatingLayoutManager(Context context) {
-//        startService(context);
-//
-//        if (MusicPlayerService.floatingLayoutManager == null) {
-//            //初始化浮动窗口管理器
-//            //MusicPlayerService.floatingLayoutManager = FloatingLayoutManagerImpl.getInstance(context);
-//        }
-//        return floatingLayoutManager;
-//    }
+    public static FloatingLayoutManager getFloatingLayoutManager(Context context) {
+        startService(context);
+
+        if (MusicPlayerService.floatingLayoutManager == null) {
+            //初始化浮动窗口管理器
+            MusicPlayerService.floatingLayoutManager = FloatingLayoutManagerImpl.getInstance(context);
+        }
+        return floatingLayoutManager;
+    }
 
     private static void startService(Context context) {
         if (!ServiceUtil.isServiceRunning(context)) {

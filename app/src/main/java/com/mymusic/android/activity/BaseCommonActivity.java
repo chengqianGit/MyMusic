@@ -1,7 +1,10 @@
 package com.mymusic.android.activity;
 
 
+import com.mymusic.android.manager.FloatingLayoutManager;
+import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.OrmUtil;
+import com.mymusic.android.util.ServiceUtil;
 import com.mymusic.android.util.SharedPreferencesUtil;
 
 import butterknife.ButterKnife;
@@ -14,7 +17,7 @@ public class BaseCommonActivity extends BaseActivity {
 
     protected SharedPreferencesUtil sp;
     protected OrmUtil orm;
-    //private FloatingLayoutManager floatingLayoutManager;
+    private FloatingLayoutManager floatingLayoutManager;
 
 
     @Override
@@ -25,24 +28,24 @@ public class BaseCommonActivity extends BaseActivity {
 
         sp = SharedPreferencesUtil.getInstance(getApplicationContext());
         orm = OrmUtil.getInstance(getApplicationContext());
-        //floatingLayoutManager = MusicPlayerService.getFloatingLayoutManager(getApplicationContext());
+        floatingLayoutManager = MusicPlayerService.getFloatingLayoutManager(getApplicationContext());
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (!ServiceUtil.isBackgroundRunning(getApplicationContext())) {
-//            //如果当前程序在前台，就尝试隐藏桌面歌词
-//            //floatingLayoutManager.tryHide();
-//        }
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if (ServiceUtil.isBackgroundRunning(getApplicationContext())) {
-//            //如果当前程序在后台，就显示桌面歌词
-//            //floatingLayoutManager.tryShow();
-//        }
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!ServiceUtil.isBackgroundRunning(getApplicationContext())) {
+            //如果当前程序在前台，就尝试隐藏桌面歌词
+            floatingLayoutManager.tryHide();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (ServiceUtil.isBackgroundRunning(getApplicationContext())) {
+            //如果当前程序在后台，就显示桌面歌词
+            floatingLayoutManager.tryShow();
+        }
+    }
 }
