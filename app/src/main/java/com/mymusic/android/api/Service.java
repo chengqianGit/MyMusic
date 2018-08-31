@@ -121,14 +121,19 @@ public interface Service {
      */
     @GET("searches/songs.json")
     Observable<ListResponse<Song>> searchSong(@QueryMap Map<String, String> data);
-//
-//    /**
-//     * 创建歌单
-//     * @return
-//     */
-//    @POST("sheets.json")
-//    Observable<DetailResponse<List>> createList(@Body List data);
-//
+
+    /**
+     * 创建歌单
+     * @return
+     */
+    @POST("sheets.json")
+    Observable<DetailResponse<List>> createList(@Body List data);
+
+    /**
+     *
+     */
+
+    Observable<DetailResponse<List>> deleteList(@Body List data);
 //    /**
 //     * 创建评论
 //     * @return
@@ -167,28 +172,28 @@ public interface Service {
     @DELETE("relationships/{user_id}.json")
     Observable<DetailResponse<User>> unFollow(@Path("user_id") String user_id);
 //
-//    /**
-//     * 收藏歌曲到歌单
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("contacts.json")
-//    Observable<DetailResponse<List>> addSongInSheet(@Field("song_id") String songId, @Field("sheet_id") String sheet_id);
+    /**
+     * 收藏歌曲到歌单
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("contacts.json")
+    Observable<DetailResponse<List>> addSongInSheet(@Field("song_id") String songId, @Field("sheet_id") String sheet_id);
 //
-//    /**
-//     * 将歌曲从歌单中删除
-//     * @return
-//     */
-//    @DELETE("contacts/{song_id}.json")
-//    Observable<DetailResponse<List>> deleteSongInSheet(@Path("song_id") String songId, @Query("sheet_id") String sheet_id);
+    /**
+     * 将歌曲从歌单中删除
+     * @return
+     */
+    @DELETE("contacts/{song_id}.json")
+    Observable<DetailResponse<List>> deleteSongInSheet(@Path("song_id") String songId, @Query("sheet_id") String sheet_id);
 //
 //
-//    /**
-//     * 取消收藏歌单
-//     * @return
-//     */
-//    @DELETE("collections/{id}.json")
-//    Observable<DetailResponse<List>> cancelCollectionList(@Path("id") String id);
+    /**
+     * 取消收藏歌单
+     * @return
+     */
+    @DELETE("collections/{id}.json")
+    Observable<DetailResponse<List>> cancelCollectionList(@Path("id") String id);
 //
 //    /**
 //     * 取消评论点赞

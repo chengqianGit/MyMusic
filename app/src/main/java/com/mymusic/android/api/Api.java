@@ -154,9 +154,9 @@ public class Api {
 //        return service.searchSong(query);
 //    }
 //
-//    public Observable<DetailResponse<List>> createList(List list) {
-//        return service.createList(list);
-//    }
+    public Observable<DetailResponse<List>> createList(List list) {
+        return service.createList(list);
+    }
 //
 //    public Observable<DetailResponse<Comment>> createComment(Comment comment) {
 //        return service.createComment(comment);
@@ -177,10 +177,10 @@ public class Api {
     public Observable<DetailResponse<User>> unFollow(String userId) {
         return service.unFollow(userId);
     }
-//
-//    public Observable<DetailResponse<List>> cancelCollectionList(String id) {
-//        return service.cancelCollectionList(id);
-//    }
+
+    public Observable<DetailResponse<List>> cancelCollectionList(String id) {
+        return service.cancelCollectionList(id);
+    }
 //
 //    public Observable<DetailResponse<Comment>> unlike(String id) {
 //        return service.unlike(id);
@@ -194,13 +194,13 @@ public class Api {
 //        return service.deleteSongInSheet(songId,sheetId);
 //    }
 //
-//    public Observable<ListResponse<List>> listsMyCreate() {
-//        return service.listsMyCreate();
-//    }
-//
-//    public Observable<ListResponse<List>> listsMyCollection() {
-//        return service.listsMyCollection();
-//    }
+    public Observable<ListResponse<List>> listsMyCreate() {
+        return service.listsMyCreate();
+    }
+
+    public Observable<ListResponse<List>> listsMyCollection() {
+        return service.listsMyCollection();
+    }
 
     public Observable<ListResponse<Song>> songs() {
         return service.songs();

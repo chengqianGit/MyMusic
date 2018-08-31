@@ -90,8 +90,15 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".activity.ListDetailActivity"
+        <activity
+            android:name=".activity.ListDetailActivity"
             android:label="@string/list_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.LocalMusicActivity"
+            android:label="@string/local_music"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.ScanLocalMusicActivity"
+            android:label="@string/scan_local_music"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

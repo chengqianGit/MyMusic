@@ -1,8 +1,5 @@
 package com.mymusic.android.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by smile on 2018/6/5.
  */

@@ -31,6 +31,7 @@ import com.mymusic.android.api.Api;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.event.CollectionListChangedEvent;
 import com.mymusic.android.manager.MusicPlayerManager;
 import com.mymusic.android.manager.PlayListManager;
 import com.mymusic.android.reactivex.HttpListener;
@@ -38,8 +39,10 @@ import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.DataUtil;
 import com.mymusic.android.util.ImageUtil;
+import com.mymusic.android.util.ToastUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -245,7 +248,7 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
                 play(0);
                 break;
             case R.id.bt_collection:
-                //collectionList();
+                collectionList();
                 break;
             case R.id.ll_comment_container:
 //                Intent intent = new Intent(this, CommentListActivity.class);
@@ -258,4 +261,38 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
                 break;
         }
     }
+    private void collectionList() {
+        if (data.isCollection()) {
+            //已经收藏了，调用取消收藏接口
+            Api.getInstance().cancelCollectionList(data.getCollection_id())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpListener<DetailResponse<List>>(getActivity()) {
+                        @Override
+                        public void onSucceeded(DetailResponse<List> data) {
+                            super.onSucceeded(data);
+                            ToastUtil.showSortToast(getActivity(),getString(R.string.cancel_list_collection_success));
+                            fetchData();
+                            publishCollectionStatus();
+                        }
+                    });
+        } else {
+            Api.getInstance().collectionList(id)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new HttpListener<DetailResponse<List>>(getActivity()) {
+                        @Override
+                        public void onSucceeded(DetailResponse<List> data) {
+                            super.onSucceeded(data);
+                            ToastUtil.showSortToast(getActivity(),getString(R.string.list_collection_success));
+                            fetchData();
+                            publishCollectionStatus();
+                        }
+                    });
+        }
+    }
+    private void publishCollectionStatus() {
+        EventBus.getDefault().post(new CollectionListChangedEvent());
+    }
+
 }
