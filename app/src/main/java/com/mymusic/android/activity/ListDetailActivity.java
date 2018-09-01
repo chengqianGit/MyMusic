@@ -41,11 +41,15 @@ import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.Consts;
 import com.mymusic.android.util.DataUtil;
 import com.mymusic.android.util.ImageUtil;
+import com.mymusic.android.util.StorageUtil;
 import com.mymusic.android.util.ToastUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
+import cn.woblog.android.downloader.DownloadService;
+import cn.woblog.android.downloader.callback.DownloadManager;
+import cn.woblog.android.downloader.domain.DownloadInfo;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -70,6 +74,7 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
     private SongAdapter adapter;
     private LRecyclerViewAdapter adapterWrapper;
     private List data;
+    private DownloadManager downloadManager;
     //private PlayListManager playListManager;
 
     @Override
@@ -100,9 +105,9 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
         //playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
         //musicPlayer = MusicPlayerService.getInstance(getApplicationContext());
         id = getIntent().getStringExtra(Consts.ID);
-        //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
+        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
 
-        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail, getSupportFragmentManager(), playListManager);
+        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail, getSupportFragmentManager(), playListManager,downloadManager);
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
@@ -264,7 +269,30 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
 
     @Override
     public void onDownloadClick(Song song) {
+        //将音乐，保存到外部存储，MyMusic/Music目陆中
+        DownloadInfo downloadInfo =downloadManager.getDownloadById(song.getId());
+        if (downloadInfo == null) {
+            downloadInfo = new DownloadInfo.Builder().setUrl(ImageUtil.getImageURI(song.getUri()))
+                    .setPath(StorageUtil.getExternalPath(song.getTitle(), StorageUtil.MP3))
+                    .build();
+            downloadInfo.setId(song.getId());
 
+            //开始下载，这里我们不需要知道进度，所以不设置回调
+            downloadManager.download(downloadInfo);
+
+            //保存业务数据
+            //将该歌曲的来源改为下载
+            song.setSource(Song.SOURCE_DOWNLOAD);
+            orm.saveSong(song,sp.getUserId());
+
+            ToastUtil.showSortToast(getActivity(), getString(R.string.download_add_complete));
+        } else {
+            if (downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
+                ToastUtil.showSortToast(getActivity(), getString(R.string.already_downloaded));
+            } else {
+                ToastUtil.showSortToast(getActivity(), getString(R.string.already_downloading));
+            }
+        }
     }
 
     @Override

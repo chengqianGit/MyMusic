@@ -1,6 +1,6 @@
 package com.mymusic.android.adapter;
 
-import android.app.DownloadManager;
+
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -10,6 +10,9 @@ import com.mymusic.android.domain.Song;
 import com.mymusic.android.fragment.SongMoreDialogFragment;
 import com.mymusic.android.manager.MusicPlayerManager;
 import com.mymusic.android.manager.PlayListManager;
+
+import cn.woblog.android.downloader.callback.DownloadManager;
+import cn.woblog.android.downloader.domain.DownloadInfo;
 
 
 /**
@@ -23,25 +26,25 @@ public class SongAdapter extends BaseQuickRecyclerViewAdapter<Song> {
     private final PlayListManager playList;
     private final FragmentManager fragmentManager;
     private OnSongListener onSongListener;
-    //private DownloadManager downloadManager;
+    private DownloadManager downloadManager;
 
     /**
      * 是否是我的歌单
      */
     private boolean isMySheet;
 
-    //    public SongAdapter(Context context, int layoutId, FragmentManager fragmentManager, PlayListManager playList, DownloadManager downloadManager) {
-//        super(context, layoutId);
-//        this.playList=playList;
-//        this.fragmentManager=fragmentManager;
-//        this.downloadManager=downloadManager;
-//    }
-    public SongAdapter(Context context, int layoutId, FragmentManager fragmentManager, PlayListManager playList) {
+        public SongAdapter(Context context, int layoutId, FragmentManager fragmentManager, PlayListManager playList, DownloadManager downloadManager) {
         super(context, layoutId);
-        this.playList = playList;
-        this.fragmentManager = fragmentManager;
-        //this.downloadManager = downloadManager;
+        this.playList=playList;
+        this.fragmentManager=fragmentManager;
+        this.downloadManager=downloadManager;
     }
+//    public SongAdapter(Context context, int layoutId, FragmentManager fragmentManager, PlayListManager playList) {
+//        super(context, layoutId);
+//        this.playList = playList;
+//        this.fragmentManager = fragmentManager;
+//        //this.downloadManager = downloadManager;
+//    }
 
     @Override
     protected void bindData(ViewHolder holder, int position, final Song data) {
@@ -56,15 +59,15 @@ public class SongAdapter extends BaseQuickRecyclerViewAdapter<Song> {
         } else {
             holder.setTextColorRes(R.id.tv_title, R.color.text);
         }
-//
-//        //是否下载
-//        DownloadInfo downloadInfo = downloadManager.getDownloadById(data.getId());
-//        if (downloadInfo != null && downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
-//            //下载完成了
-//            holder.setVisibility(R.id.iv_downloaded, View.VISIBLE);
-//        } else {
-//            holder.setVisibility(R.id.iv_downloaded, View.GONE);
-//        }
+
+        //是否下载
+        DownloadInfo downloadInfo = downloadManager.getDownloadById(data.getId());
+        if (downloadInfo != null && downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
+            //下载完成了
+            holder.setVisibility(R.id.iv_downloaded, View.VISIBLE);
+        } else {
+            holder.setVisibility(R.id.iv_downloaded, View.GONE);
+        }
 //
         holder.setOnClickListener(R.id.iv_more, new View.OnClickListener() {
             @Override

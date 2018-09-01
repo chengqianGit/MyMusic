@@ -49,11 +49,13 @@ android {
 }
 
 dependencies {
+
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:$rootProject.androidSupportVersion"
     implementation "com.android.support:design:$rootProject.androidSupportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
     //    butterknife,支持BindView，省去findViewById
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
@@ -106,6 +108,7 @@ dependencies {
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 
     //shareSDK
+
     //classpath 'com.mob.sdk:MobSDK:+'
 
     //Recycler View header
@@ -115,14 +118,13 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
 
     //    download
-    //implementation project(':downloader')
+    implementation project(':downloader')
+    //    rong im
 
-//    rong im
     //implementation project(':IMLib')
 
     //    banner
     implementation 'com.youth.banner:banner:1.4.10'
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

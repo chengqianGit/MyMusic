@@ -1,6 +1,6 @@
 package com.mymusic.android.activity;
 
-import android.app.DownloadManager;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -38,7 +38,9 @@ import com.mymusic.android.parser.LyricsParser;
 import com.mymusic.android.service.MusicPlayerService;
 import com.mymusic.android.util.AlbumDrawableUtil;
 import com.mymusic.android.util.ImageUtil;
+import com.mymusic.android.util.StorageUtil;
 import com.mymusic.android.util.TimeUtil;
+import com.mymusic.android.util.ToastUtil;
 import com.mymusic.android.view.LyricView;
 import com.mymusic.android.view.RecordThumbView;
 import com.mymusic.android.view.RecordView;
@@ -47,6 +49,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
+import cn.woblog.android.downloader.DownloadService;
+import cn.woblog.android.downloader.callback.DownloadManager;
+import cn.woblog.android.downloader.domain.DownloadInfo;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
@@ -149,7 +154,7 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
     @Override
     protected void initDatas() {
         super.initDatas();
-        //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
+        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
 
         musicPlayerManager = MusicPlayerService.getMusicPlayerManager(getApplicationContext());
         playListManager = MusicPlayerService.getPlayListManager(getApplicationContext());
@@ -162,17 +167,17 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
         setFirstData(data);
 
         showLoopModel(playListManager.getLoopModel());
-//
-//        //下载
-//        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
-//        //是否下载
-//        DownloadInfo downloadInfo = downloadManager.getDownloadById(data.getId());
-//        if (downloadInfo != null && downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
-//            //下载完成了
-//            iv_download.setImageResource(R.drawable.ic_downloaded);
-//        } else {
-//            iv_download.setImageResource(R.drawable.ic_download);
-//        }
+
+        //下载
+        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
+        //是否下载
+        DownloadInfo downloadInfo = downloadManager.getDownloadById(data.getId());
+        if (downloadInfo != null && downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
+            //下载完成了
+            iv_download.setImageResource(R.drawable.ic_downloaded);
+        } else {
+            iv_download.setImageResource(R.drawable.ic_download);
+        }
 
         //musicPlayerManager.play("http://dev-courses-misuc.ixuea.com/assets/s1.mp3",new Song());
         //musicPlayerManager.play("http://dev-courses-misuc.ixuea.com/assets/s2.mp3",new Song());
@@ -267,9 +272,35 @@ public class MusicPlayerActivity extends BaseTitleActivity implements View.OnCli
                 int loopModel = playListManager.changeLoopModel();
                 showLoopModel(loopModel);
                 break;
-//            case R.id.iv_download:
-//                download();
-//                break;
+            case R.id.iv_download:
+                download();
+                break;
+        }
+    }
+    private void download() {
+        Song song = this.playListManager.getPlayData();
+        DownloadInfo downloadInfo =downloadManager.getDownloadById(song.getId());
+        if (downloadInfo == null) {
+            downloadInfo = new DownloadInfo.Builder().setUrl(ImageUtil.getImageURI(song.getUri()))
+                    .setPath(StorageUtil.getExternalPath(song.getTitle(),StorageUtil.MP3))
+                    .build();
+            downloadInfo.setId(song.getId());
+
+            //开始下载，这里我们不需要知道进度，所以不设置回调
+            downloadManager.download(downloadInfo);
+
+            //保存业务数据
+            //将该歌曲的来源改为下载
+            song.setSource(Song.SOURCE_DOWNLOAD);
+            orm.saveSong(song,sp.getUserId());
+
+            ToastUtil.showSortToast(getActivity(), getString(R.string.download_add_complete));
+        } else {
+            if (downloadInfo.getStatus() == DownloadInfo.STATUS_COMPLETED) {
+                ToastUtil.showSortToast(getActivity(), getString(R.string.already_downloaded));
+            } else {
+                ToastUtil.showSortToast(getActivity(), getString(R.string.already_downloading));
+            }
         }
     }
     private void showLoopModel(int model) {

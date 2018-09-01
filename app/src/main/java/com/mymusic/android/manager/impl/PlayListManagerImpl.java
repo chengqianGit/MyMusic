@@ -1,6 +1,6 @@
 package com.mymusic.android.manager.impl;
 
-import android.app.DownloadManager;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +50,9 @@ import java.util.List;
 import java.util.Random;
 
 
-
+import cn.woblog.android.downloader.DownloadService;
+import cn.woblog.android.downloader.callback.DownloadManager;
+import cn.woblog.android.downloader.domain.DownloadInfo;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -90,7 +92,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
 
     private final MusicPlayerManager musicPlayer;
     private final FloatingLayoutManager floatingLayoutManager;
-    //private final DownloadManager downloadManager;
+    private final DownloadManager downloadManager;
     private List<Song> datum = new LinkedList<>();
 
     private static PlayListManager manager;
@@ -124,7 +126,7 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
 
         floatingLayoutManager=MusicPlayerService.getFloatingLayoutManager(context);
         floatingLayoutManager.setOnFloatingListener(this);
-        //downloadManager = DownloadService.getDownloadManager(context);
+        downloadManager = DownloadService.getDownloadManager(context);
     }
 
 
@@ -293,16 +295,16 @@ public class PlayListManagerImpl implements PlayListManager, OnMusicPlayerListen
             //本地音乐，就不要拼接地址了
             musicPlayer.play(currentSong.getUri(), song);
         } else {
-//            //判断是否有下载的对象
-//            DownloadInfo downloadInfo = downloadManager.getDownloadById(song.getId());
-//            if (downloadInfo != null && downloadInfo.getStatus()==DownloadInfo.STATUS_COMPLETED) {
-//                //播放下载的音乐
-//                musicPlayer.play(downloadInfo.getPath(), song);
-//            } else {
-//                musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
-//            }
+            //判断是否有下载的对象
+            DownloadInfo downloadInfo = downloadManager.getDownloadById(song.getId());
+            if (downloadInfo != null && downloadInfo.getStatus()==DownloadInfo.STATUS_COMPLETED) {
+                //播放下载的音乐
+                musicPlayer.play(downloadInfo.getPath(), song);
+            } else {
+                musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
+            }
 
-            musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
+            //musicPlayer.play(ImageUtil.getImageURI(currentSong.getUri()), song);
 
         }
         sp.setLastPlaySongId(currentSong.getId());

@@ -24,6 +24,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import cn.woblog.android.downloader.DownloadService;
+import cn.woblog.android.downloader.callback.DownloadManager;
+
 public class LocalMusicActivity extends BaseMusicPlayerActivity {
 
     private static final String TAG = "TAG";
@@ -36,7 +39,7 @@ public class LocalMusicActivity extends BaseMusicPlayerActivity {
 
     private SongAdapter adapter;
     private LRecyclerViewAdapter adapterWrapper;
-    //private DownloadManager downloadManager;
+    private DownloadManager downloadManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +65,11 @@ public class LocalMusicActivity extends BaseMusicPlayerActivity {
     @Override
     protected void initDatas() {
         super.initDatas();
-        //downloadManager = DownloadService.getDownloadManager(getApplicationContext());
+        downloadManager = DownloadService.getDownloadManager(getApplicationContext());
 
         EventBus.getDefault().register(this);
 
-        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail,getSupportFragmentManager(), playListManager);
+        adapter = new SongAdapter(getActivity(), R.layout.item_song_detail,getSupportFragmentManager(), playListManager,downloadManager);
         adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {

@@ -1,6 +1,6 @@
 package com.mymusic.android.fragment;
 
-import android.app.DownloadManager;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mymusic.android.R;
+import com.mymusic.android.activity.DownloadManagerActivity;
 import com.mymusic.android.activity.ListDetailActivity;
 import com.mymusic.android.activity.LocalMusicActivity;
 import com.mymusic.android.adapter.MeAdapter;
@@ -29,6 +30,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 
 
+import cn.woblog.android.downloader.DownloadService;
+import cn.woblog.android.downloader.callback.DownloadManager;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -43,11 +46,11 @@ public class MeFragment extends BaseCommonFragment implements MeAdapter.OnMeList
     private ExpandableListView elv;
     private MeAdapter adapter;
     private LinearLayout ll_local_music;
-    //private LinearLayout ll_download;
+    private LinearLayout ll_download;
     private TextView tv_music_count;
     private TextView tv_download_count;
 
-    //private DownloadManager downloadManager;
+    private DownloadManager downloadManager;
 
     public static MeFragment newInstance() {
 
@@ -67,17 +70,17 @@ public class MeFragment extends BaseCommonFragment implements MeAdapter.OnMeList
 
         ll_local_music=findViewById(R.id.ll_local_music);
         tv_music_count=findViewById(R.id.tv_music_count);
-        //tv_download_count=findViewById(R.id.tv_download_count);
-        //ll_download=findViewById(R.id.ll_download);
+        tv_download_count=findViewById(R.id.tv_download_count);
+        ll_download=findViewById(R.id.ll_download);
     }
 
     @Override
     protected void initDatas() {
         super.initDatas();
-        //downloadManager = DownloadService.getDownloadManager(getActivity().getApplicationContext());
+        downloadManager = DownloadService.getDownloadManager(getActivity().getApplicationContext());
         EventBus.getDefault().register(this);
         tv_music_count.setText(getResources().getString(R.string.music_count1,orm.countOfLocalMusic(sp.getUserId())));
-        //tv_download_count.setText(getResources().getString(R.string.music_count1,downloadManager.findAllDownloaded().size()));
+        tv_download_count.setText(getResources().getString(R.string.music_count1,downloadManager.findAllDownloaded().size()));
 
         adapter = new MeAdapter(getActivity());
         adapter.setOnMeListener(this);
@@ -118,7 +121,7 @@ public class MeFragment extends BaseCommonFragment implements MeAdapter.OnMeList
     protected void initListener() {
         super.initListener();
         ll_local_music.setOnClickListener(this);
-        //ll_download.setOnClickListener(this);
+        ll_download.setOnClickListener(this);
         elv.setOnChildClickListener(this);
     }
 
@@ -140,7 +143,7 @@ public class MeFragment extends BaseCommonFragment implements MeAdapter.OnMeList
                 startActivity(LocalMusicActivity.class);
                 break;
             case R.id.ll_download:
-                //startActivity(DownloadManagerActivity.class);
+                startActivity(DownloadManagerActivity.class);
                 break;
         }
     }
