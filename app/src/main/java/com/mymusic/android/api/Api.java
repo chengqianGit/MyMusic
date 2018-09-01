@@ -181,18 +181,18 @@ public class Api {
     public Observable<DetailResponse<List>> cancelCollectionList(String id) {
         return service.cancelCollectionList(id);
     }
-//
+
 //    public Observable<DetailResponse<Comment>> unlike(String id) {
 //        return service.unlike(id);
 //    }
-//
-//    public Observable<DetailResponse<List>> addSongInSheet(String songId,String listId) {
-//        return service.addSongInSheet(songId,listId);
-//    }
-//
-//    public Observable<DetailResponse<List>> deleteSongInSheet(String songId,String sheetId) {
-//        return service.deleteSongInSheet(songId,sheetId);
-//    }
+
+    public Observable<DetailResponse<List>> addSongInSheet(String songId,String listId) {
+        return service.addSongInSheet(songId,listId);
+    }
+
+    public Observable<DetailResponse<List>> deleteSongInSheet(String songId,String sheetId) {
+        return service.deleteSongInSheet(songId,sheetId);
+    }
 //
     public Observable<ListResponse<List>> listsMyCreate() {
         return service.listsMyCreate();

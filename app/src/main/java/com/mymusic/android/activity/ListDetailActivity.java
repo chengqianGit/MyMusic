@@ -31,7 +31,9 @@ import com.mymusic.android.api.Api;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.response.DetailResponse;
+import com.mymusic.android.domain.response.ListResponse;
 import com.mymusic.android.event.CollectionListChangedEvent;
+import com.mymusic.android.fragment.SelectListDialogFragment;
 import com.mymusic.android.manager.MusicPlayerManager;
 import com.mymusic.android.manager.PlayListManager;
 import com.mymusic.android.reactivex.HttpListener;
@@ -44,6 +46,7 @@ import com.mymusic.android.util.ToastUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -227,8 +230,36 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
     }
 
     @Override
-    public void onCollectionClick(Song song) {
-
+    public void onCollectionClick(final Song song) {
+        //获取我创建的歌单，然后显示选择歌单Fragment，选择完成后调用接口收藏
+        Observable<ListResponse<List>> list = Api.getInstance().listsMyCreate();
+        list.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpListener<ListResponse<List>>((BaseActivity) getActivity()) {
+                    @Override
+                    public void onSucceeded(final ListResponse<List> data) {
+                        super.onSucceeded(data);
+                        SelectListDialogFragment.show(getSupportFragmentManager(),data.getData(), new SelectListDialogFragment.OnSelectListListener() {
+                            @Override
+                            public void onSelectListClick(List list) {
+                                collectionSong(song,list);
+                            }
+                        });
+                    }
+                });
+    }
+    private void collectionSong(Song song, List list) {
+        //将song收藏到list
+        Api.getInstance().addSongInSheet(song.getId(),list.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpListener<DetailResponse<List>>(getActivity()) {
+                    @Override
+                    public void onSucceeded(DetailResponse<List> data) {
+                        super.onSucceeded(data);
+                        ToastUtil.showSortToast(getActivity(),getString(R.string.song_like_success));
+                    }
+                });
     }
 
     @Override
@@ -238,9 +269,18 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
 
     @Override
     public void onDeleteClick(Song song) {
+        Api.getInstance().deleteSongInSheet(song.getId(),id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpListener<DetailResponse<List>>(getActivity()) {
+                    @Override
+                    public void onSucceeded(DetailResponse<List> data) {
+                        super.onSucceeded(data);
+                        ToastUtil.showSortToast(getActivity(),getString(R.string.delete_success));
+                    }
+                });
 
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

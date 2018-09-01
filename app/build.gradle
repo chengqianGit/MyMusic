@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         debug {
@@ -109,6 +110,15 @@ dependencies {
 
     //Recycler View header
     implementation 'com.github.jdsjlzx:LRecyclerView:1.5.0'
+
+    //    multi dex
+    implementation 'com.android.support:multidex:1.0.1'
+
+    //    download
+    //implementation project(':downloader')
+
+//    rong im
+    //implementation project(':IMLib')
 
     //    banner
     implementation 'com.youth.banner:banner:1.4.10'
