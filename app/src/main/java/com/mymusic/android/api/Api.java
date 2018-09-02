@@ -6,10 +6,13 @@ package com.mymusic.android.api;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mymusic.android.AppContext;
 import com.mymusic.android.domain.Advertisement;
+import com.mymusic.android.domain.Comment;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
 import com.mymusic.android.domain.Song;
+import com.mymusic.android.domain.Topic;
 import com.mymusic.android.domain.User;
+import com.mymusic.android.domain.Video;
 import com.mymusic.android.domain.response.DetailResponse;
 import com.mymusic.android.domain.response.ListResponse;
 import com.mymusic.android.interceptor.HttpLoggingInterceptor;
@@ -157,18 +160,18 @@ public class Api {
     public Observable<DetailResponse<List>> createList(List list) {
         return service.createList(list);
     }
-//
-//    public Observable<DetailResponse<Comment>> createComment(Comment comment) {
-//        return service.createComment(comment);
-//    }
-//
+
+    public Observable<DetailResponse<Comment>> createComment(Comment comment) {
+        return service.createComment(comment);
+    }
+
     public Observable<DetailResponse<List>> collectionList(String listId) {
         return service.collectionList(listId);
     }
-//
-//    public Observable<DetailResponse<Comment>> like(String commentId) {
-//        return service.like(commentId);
-//    }
+
+    public Observable<DetailResponse<Comment>> like(String commentId) {
+        return service.like(commentId);
+    }
 //
     public Observable<DetailResponse<User>> follow(String userId) {
         return service.follow(userId);
@@ -182,9 +185,9 @@ public class Api {
         return service.cancelCollectionList(id);
     }
 
-//    public Observable<DetailResponse<Comment>> unlike(String id) {
-//        return service.unlike(id);
-//    }
+    public Observable<DetailResponse<Comment>> unlike(String id) {
+        return service.unlike(id);
+    }
 
     public Observable<DetailResponse<List>> addSongInSheet(String songId,String listId) {
         return service.addSongInSheet(songId,listId);
@@ -237,20 +240,20 @@ public class Api {
 //    public Observable<DetailResponse<Feed>> createFeed(FeedParam data) {
 //        return service.createFeed(data);
 //    }
-//
-//    public Observable<ListResponse<Comment>> comments(Map<String,String> data) {
-//        return service.comments(data);
-//    }
-//
-//    public Observable<ListResponse<User>> myFriends(String id,String nickname) {
-//        HashMap<String, String> data = new HashMap<>();
-//
-//        //根据nickname查找
-//        if (StringUtils.isNotEmpty(nickname)) {
-//            data.put(Consts.FILTER, nickname);
-//        }
-//        return service.following(id,data);
-//    }
+
+    public Observable<ListResponse<Comment>> comments(Map<String,String> data) {
+        return service.comments(data);
+    }
+
+    public Observable<ListResponse<User>> myFriends(String id,String nickname) {
+        HashMap<String, String> data = new HashMap<>();
+
+        //根据nickname查找
+        if (StringUtils.isNotEmpty(nickname)) {
+            data.put(Consts.FILTER, nickname);
+        }
+        return service.following(id,data);
+    }
 //
 //    public Observable<ListResponse<User>> myFans(String id,String nickname) {
 //        HashMap<String, String> data = new HashMap<>();
@@ -262,33 +265,33 @@ public class Api {
 //        return service.followers(id,data);
 //    }
 //
-//    public Observable<ListResponse<Topic>> topics(String title) {
-//        HashMap<String, String> data = new HashMap<>();
-//        if (StringUtils.isNotEmpty(title)) {
-//            data.put(Consts.FILTER, title);
-//        }
-//        return service.topics(data);
-//    }
-//
-//    public Observable<DetailResponse<Topic>> topicDetail(String id) {
-//        HashMap<String, String> data = new HashMap<>();
-//        return service.topicDetail(id,data);
-//    }
-//
-//    public Observable<DetailResponse<Topic>> topicDetailByTitle(String title) {
-//        HashMap<String, String> data = new HashMap<>();
-//        data.put(Consts.TITLE,title);
-//        return service.topicDetail(String.valueOf(-1),data);
-//    }
-//
-//    public Observable<ListResponse<Video>> videos() {
-//        HashMap<String, String> data = new HashMap<>();
-//        return service.videos(data);
-//    }
-//
-//    public Observable<DetailResponse<Video>> videoDetail(String id) {
-//        return service.videoDetail(id);
-//    }
+    public Observable<ListResponse<Topic>> topics(String title) {
+        HashMap<String, String> data = new HashMap<>();
+        if (StringUtils.isNotEmpty(title)) {
+            data.put(Consts.FILTER, title);
+        }
+        return service.topics(data);
+    }
+
+    public Observable<DetailResponse<Topic>> topicDetail(String id) {
+        HashMap<String, String> data = new HashMap<>();
+        return service.topicDetail(id,data);
+    }
+
+    public Observable<DetailResponse<Topic>> topicDetailByTitle(String title) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Consts.TITLE,title);
+        return service.topicDetail(String.valueOf(-1),data);
+    }
+
+    public Observable<ListResponse<Video>> videos() {
+        HashMap<String, String> data = new HashMap<>();
+        return service.videos(data);
+    }
+
+    public Observable<DetailResponse<Video>> videoDetail(String id) {
+        return service.videoDetail(id);
+    }
 
     public Observable<ListResponse<Advertisement>> advertisements() {
         return service.advertisements();

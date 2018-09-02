@@ -319,10 +319,10 @@ public class ListDetailActivity extends BaseMusicPlayerActivity implements SongA
                 collectionList();
                 break;
             case R.id.ll_comment_container:
-//                Intent intent = new Intent(this, CommentListActivity.class);
-//                intent.putExtra(Consts.LIST_ID,id);
-//                intent.putExtra(Consts.STYLE,Consts.STYLE_LIST);
-//                startActivity(intent);
+                Intent intent = new Intent(this, CommentListActivity.class);
+                intent.putExtra(Consts.LIST_ID,id);
+                intent.putExtra(Consts.STYLE,Consts.STYLE_LIST);
+                startActivity(intent);
                 break;
             default:
                 super.onClick(v);

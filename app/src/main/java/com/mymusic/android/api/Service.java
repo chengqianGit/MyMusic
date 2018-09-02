@@ -3,10 +3,13 @@ package com.mymusic.android.api;
 
 
 import com.mymusic.android.domain.Advertisement;
+import com.mymusic.android.domain.Comment;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
 import com.mymusic.android.domain.Song;
+import com.mymusic.android.domain.Topic;
 import com.mymusic.android.domain.User;
+import com.mymusic.android.domain.Video;
 import com.mymusic.android.domain.response.DetailResponse;
 import com.mymusic.android.domain.response.ListResponse;
 
@@ -62,14 +65,14 @@ public interface Service {
     @GET("users/{id}.json")
     Observable<DetailResponse<User>> userDetail(@Path("id") String id);
 
-//    /**
-//     * 获取话题详情
-//     * @param id
-//     * @return
-//     */
-//    @GET("topics/{id}.json")
-//    Observable<DetailResponse<Topic>> topicDetail(@Path("id") String id, @QueryMap Map<String, String> data);
-//
+    /**
+     * 获取话题详情
+     * @param id
+     * @return
+     */
+    @GET("topics/{id}.json")
+    Observable<DetailResponse<Topic>> topicDetail(@Path("id") String id, @QueryMap Map<String, String> data);
+
     /**
      * 根据nickname,获取用户详情
      * @param data
@@ -134,13 +137,13 @@ public interface Service {
      */
 
     Observable<DetailResponse<List>> deleteList(@Body List data);
-//    /**
-//     * 创建评论
-//     * @return
-//     */
-//    @POST("comments.json")
-//    Observable<DetailResponse<Comment>> createComment(@Body Comment data);
-//
+    /**
+     * 创建评论
+     * @return
+     */
+    @POST("comments.json")
+    Observable<DetailResponse<Comment>> createComment(@Body Comment data);
+
     /**
      * 收藏歌单
      * @return
@@ -148,15 +151,15 @@ public interface Service {
     @FormUrlEncoded
     @POST("collections.json")
     Observable<DetailResponse<List>> collectionList(@Field("sheet_id") String list_id);
-//
-//    /**
-//     * 评论点赞
-//     * @return
-//     */
-//    @FormUrlEncoded
-//    @POST("likes.json")
-//    Observable<DetailResponse<Comment>> like(@Field("comment_id") String comment_id);
-//
+
+    /**
+     * 评论点赞
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("likes.json")
+    Observable<DetailResponse<Comment>> like(@Field("comment_id") String comment_id);
+
     /**
      * 关注用户
      * @return
@@ -194,15 +197,15 @@ public interface Service {
      */
     @DELETE("collections/{id}.json")
     Observable<DetailResponse<List>> cancelCollectionList(@Path("id") String id);
-//
-//    /**
-//     * 取消评论点赞
-//     * @return
-//     */
-//    @DELETE("likes/{id}.json")
-//    Observable<DetailResponse<Comment>> unlike(@Path("id") String id);
-//
-//
+
+    /**
+     * 取消评论点赞
+     * @return
+     */
+    @DELETE("likes/{id}.json")
+    Observable<DetailResponse<Comment>> unlike(@Path("id") String id);
+
+
     /**
      * 单曲列表
      * @return
@@ -225,15 +228,15 @@ public interface Service {
      */
     @GET("sheets/{id}.json")
     Observable<DetailResponse<List>> listDetail(@Path("id") String id);
-//
-//    /**
-//     * 评论列表
-//     * @param data
-//     * @return
-//     */
-//    @GET("comments.json")
-//    Observable<ListResponse<Comment>> comments(@QueryMap Map<String, String> data);
-//
+
+    /**
+     * 评论列表
+     * @param data
+     * @return
+     */
+    @GET("comments.json")
+    Observable<ListResponse<Comment>> comments(@QueryMap Map<String, String> data);
+
 //    /**
 //     * 动态列表
 //     * @param data
@@ -249,55 +252,55 @@ public interface Service {
 //     */
 //    @POST("feeds.json")
 //    Observable<DetailResponse<Feed>> createFeed(@Body FeedParam feed);
-//
-//    /**
-//     * 用户列表
-//     * @param data
-//     * @return
-//     */
-//    @GET("users.json")
-//    Observable<ListResponse<User>> users(@QueryMap Map<String, String> data);
-//
-//    /**
-//     * 我关注的人
-//     * @param id
-//     * @return
-//     */
-//    @GET("users/{id}/following.json")
-//    Observable<ListResponse<User>> following(@Path("id") String id, @QueryMap Map<String, String> data);
-//
-//    /**
-//     * 关注我关注的人
-//     * @param id
-//     * @return
-//     */
-//    @GET("users/{id}/followers.json")
-//    Observable<ListResponse<User>> followers(@Path("id") String id, @QueryMap Map<String, String> data);
-//
-//    /**
-//     * 话题列表
-//     * @param data
-//     * @return
-//     */
-//    @GET("topics.json")
-//    Observable<ListResponse<Topic>> topics(@QueryMap Map<String, String> data);
-//
-//  /**
-//     * 视频列表
-//     * @param data
-//     * @return
-//     */
-//    @GET("videos.json")
-//    Observable<ListResponse<Video>> videos(@QueryMap Map<String, String> data);
-//
-//    /**
-//     * 视频详情
-//     * @param id
-//     * @return
-//     */
-//    @GET("videos/{id}.json")
-//    Observable<DetailResponse<Video>> videoDetail(@Path("id") String id);
-//
+
+    /**
+     * 用户列表
+     * @param data
+     * @return
+     */
+    @GET("users.json")
+    Observable<ListResponse<User>> users(@QueryMap Map<String, String> data);
+
+    /**
+     * 我关注的人
+     * @param id
+     * @return
+     */
+    @GET("users/{id}/following.json")
+    Observable<ListResponse<User>> following(@Path("id") String id, @QueryMap Map<String, String> data);
+
+    /**
+     * 关注我关注的人
+     * @param id
+     * @return
+     */
+    @GET("users/{id}/followers.json")
+    Observable<ListResponse<User>> followers(@Path("id") String id, @QueryMap Map<String, String> data);
+
+    /**
+     * 话题列表
+     * @param data
+     * @return
+     */
+    @GET("topics.json")
+    Observable<ListResponse<Topic>> topics(@QueryMap Map<String, String> data);
+
+  /**
+     * 视频列表
+     * @param data
+     * @return
+     */
+    @GET("videos.json")
+    Observable<ListResponse<Video>> videos(@QueryMap Map<String, String> data);
+
+    /**
+     * 视频详情
+     * @param id
+     * @return
+     */
+    @GET("videos/{id}.json")
+    Observable<DetailResponse<Video>> videoDetail(@Path("id") String id);
+
 //    /**
 //     * 查找歌词
 //     * @return

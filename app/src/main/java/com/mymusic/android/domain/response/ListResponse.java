@@ -6,7 +6,7 @@ import java.util.List;
  * Created by smile on 02/03/2018.
  */
 
-public class ListResponse<T> extends BaseResponse{
+public class ListResponse<T> extends BaseResponse {
     private List<T> data;
 
     private Meta meta;
@@ -29,9 +29,10 @@ public class ListResponse<T> extends BaseResponse{
         return this;
     }
 
-    public static class Meta{
+    public static class Meta {
         private int current_page;
         private int total_pages;
+        private int total_count;
 
         public int getCurrent_page() {
             return current_page;
@@ -40,6 +41,10 @@ public class ListResponse<T> extends BaseResponse{
         public Meta setCurrent_page(int current_page) {
             this.current_page = current_page;
             return this;
+        }
+
+        public int getTotal_count() {
+            return total_count;
         }
 
         public int getTotal_pages() {
@@ -53,12 +58,13 @@ public class ListResponse<T> extends BaseResponse{
 
         /**
          * 开始页数是1
+         *
          * @param page
          * @return
          */
         public static int nextPage(Meta page) {
             if (page != null) {
-                return page.getCurrent_page()+1;
+                return page.getCurrent_page() + 1;
             }
             return 1;
         }

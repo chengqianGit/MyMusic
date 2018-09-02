@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 
 
 import com.facebook.stetho.Stetho;
@@ -42,9 +44,9 @@ public class AppContext extends Application {
 
         this.context = getApplicationContext();
 
-//        //初始化emoji
-//        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
-//        EmojiCompat.init(config);
+        //初始化emoji
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
+        EmojiCompat.init(config);
 //
 //        //Share SDK
 //        //MobSDK.init(this);
