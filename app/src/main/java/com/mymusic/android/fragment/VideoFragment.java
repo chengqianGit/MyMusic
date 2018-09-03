@@ -10,10 +10,19 @@ import android.view.ViewGroup;
 
 
 import com.mymusic.android.R;
+import com.mymusic.android.activity.VideoDetailActivity;
+import com.mymusic.android.adapter.BaseRecyclerViewAdapter;
+import com.mymusic.android.adapter.VideoAdapter;
+import com.mymusic.android.api.Api;
+import com.mymusic.android.domain.Video;
+import com.mymusic.android.domain.response.ListResponse;
+import com.mymusic.android.reactivex.HttpListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -24,9 +33,7 @@ import java.util.List;
 public class VideoFragment extends BaseCommonFragment {
 
     RecyclerView rv;
-//    private VideoAdapter adapter;
-//    private LRecyclerViewAdapter adapterWrapper;
-
+    private VideoAdapter adapter;
     public static VideoFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -35,55 +42,52 @@ public class VideoFragment extends BaseCommonFragment {
         return fragment;
     }
 
-//    @Override
-//    protected void initViews() {
-//        super.initViews();
-//        rv=findViewById(R.id.rv);
-//        rv.setHasFixedSize(true);
-//
-//        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        rv.setLayoutManager(layoutManager);
-//    }
-//
-//    @Override
-//    protected void initDatas() {
-//        super.initDatas();
-//        rv = findViewById(R.id.rv);
-//
-//        adapter = new VideoAdapter(getActivity(),R.layout.item_video);
-//        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
-//                Video data = adapter.getData(position);
-//                startActivityExtraId(VideoDetailActivity.class,data.getId());
-//            }
-//        });
-//
-//        adapterWrapper = new LRecyclerViewAdapter(adapter);
-//
-//        //adapterWrapper.addHeaderView(createHeaderView());
-//        rv.setAdapter(adapterWrapper);
-//
-//        fetchData();
-//
-//    }
-//
-//    private void fetchData() {
-//        Api.getInstance().videos()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new HttpListener<ListResponse<Video>>(getMainActivity()) {
-//                    @Override
-//                    public void onSucceeded(ListResponse<Video> data) {
-//                        super.onSucceeded(data);
-//                        next(data.getData());
-//                    }
-//                });
-//    }
-//
-//    public void next(List<Video> videos) {
-//        adapter.setData(videos);
-//    }
+    @Override
+    protected void initViews() {
+        super.initViews();
+        rv=findViewById(R.id.rv);
+        rv.setHasFixedSize(true);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rv.setLayoutManager(layoutManager);
+    }
+
+    @Override
+    protected void initDatas() {
+        super.initDatas();
+        rv = findViewById(R.id.rv);
+
+        adapter = new VideoAdapter(getActivity(),R.layout.item_video);
+        adapter.setOnItemClickListener(new BaseRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseRecyclerViewAdapter.ViewHolder holder, int position) {
+                Video data = adapter.getData(position);
+                startActivityExtraId(VideoDetailActivity.class,data.getId());
+            }
+        });
+
+        rv.setAdapter(adapter);
+
+        fetchData();
+
+    }
+
+    private void fetchData() {
+        Api.getInstance().videos()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new HttpListener<ListResponse<Video>>(getMainActivity()) {
+                    @Override
+                    public void onSucceeded(ListResponse<Video> data) {
+                        super.onSucceeded(data);
+                        next(data.getData());
+                    }
+                });
+    }
+
+    public void next(List<Video> videos) {
+        adapter.setData(videos);
+    }
 
     @Override
     protected void initListener() {

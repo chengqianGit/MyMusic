@@ -118,9 +118,14 @@
             android:name=".activity.SelectTopicActivity"
             android:label="@string/select_topic"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.TopicDetailActivity"
+        <activity
+            android:name=".activity.TopicDetailActivity"
             android:label="@string/topic_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.VideoDetailActivity"
+            android:label=""
+            android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
+            android:theme="@style/AppTheme.NoActionBar.Black"></activity>
     </application>
 
 </manifest>
