@@ -148,8 +148,12 @@
             android:name=".activity.MessageActivity"
             android:label="@string/my_message"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.ConversationActivity"
+        <activity
+            android:name=".activity.ConversationActivity"
             android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.PublishMessageActivity"
+            android:label="@string/publish_message"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -91,7 +91,7 @@ public class Consts {
     public static final int STYLE_LIST = 30;
     public static final String VIDEO_ID = "video_id";
     public static final String TOPIC = "topic";
-    //public static final String OSS_BUCKET_NAME = "dev-courses-misuc";
+    public static final String OSS_BUCKET_NAME = "dev-courses-misuc";
     public static final int DEFAULT_MESSAGE_COUNT = 10;
     public static final String AVATAR = "AVATAR";
     public static final String ACTION_MESSAGE = "com.mymusic.android.ACTION_MESSAGE";

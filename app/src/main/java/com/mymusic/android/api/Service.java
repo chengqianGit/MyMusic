@@ -4,12 +4,14 @@ package com.mymusic.android.api;
 
 import com.mymusic.android.domain.Advertisement;
 import com.mymusic.android.domain.Comment;
+import com.mymusic.android.domain.Feed;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
 import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.Topic;
 import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.Video;
+import com.mymusic.android.domain.param.FeedParam;
 import com.mymusic.android.domain.response.DetailResponse;
 import com.mymusic.android.domain.response.ListResponse;
 
@@ -237,21 +239,21 @@ public interface Service {
     @GET("comments.json")
     Observable<ListResponse<Comment>> comments(@QueryMap Map<String, String> data);
 
-//    /**
-//     * 动态列表
-//     * @param data
-//     * @return
-//     */
-//    @GET("feeds.json")
-//    Observable<ListResponse<Feed>> feeds(@QueryMap Map<String, String> data);
-//
-//    /**
-//     * 发布动态
-//     * @param feed
-//     * @return
-//     */
-//    @POST("feeds.json")
-//    Observable<DetailResponse<Feed>> createFeed(@Body FeedParam feed);
+    /**
+     * 动态列表
+     * @param data
+     * @return
+     */
+    @GET("feeds.json")
+    Observable<ListResponse<Feed>> feeds(@QueryMap Map<String, String> data);
+
+    /**
+     * 发布动态
+     * @param feed
+     * @return
+     */
+    @POST("feeds.json")
+    Observable<DetailResponse<Feed>> createFeed(@Body FeedParam feed);
 
     /**
      * 用户列表

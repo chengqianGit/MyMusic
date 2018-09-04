@@ -123,6 +123,12 @@ dependencies {
     //    image select
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
 
+    //    aliyun oss
+//    商用项目请一定要指定SDK版本，不然后果可能很严重
+//    如果查看最新版本可以在《详解OkHttp》课程中找到
+//    compile 'com.aliyun.dpa:oss-android-sdk:+'
+    implementation 'com.aliyun.dpa:oss-android-sdk:2.5.0'
+
     //    multi dex
     implementation 'com.android.support:multidex:1.0.1'
 

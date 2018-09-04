@@ -7,12 +7,14 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mymusic.android.AppContext;
 import com.mymusic.android.domain.Advertisement;
 import com.mymusic.android.domain.Comment;
+import com.mymusic.android.domain.Feed;
 import com.mymusic.android.domain.List;
 import com.mymusic.android.domain.Session;
 import com.mymusic.android.domain.Song;
 import com.mymusic.android.domain.Topic;
 import com.mymusic.android.domain.User;
 import com.mymusic.android.domain.Video;
+import com.mymusic.android.domain.param.FeedParam;
 import com.mymusic.android.domain.response.DetailResponse;
 import com.mymusic.android.domain.response.ListResponse;
 import com.mymusic.android.interceptor.HttpLoggingInterceptor;
@@ -216,30 +218,30 @@ public class Api {
     public Observable<DetailResponse<List>> listDetail(String id) {
         return service.listDetail(id);
     }
-//
-//    public Observable<ListResponse<Feed>> feedsByTopic(String topic) {
-//        HashMap<String, String> data = new HashMap<>();
-//        data.put(Consts.TOPIC,topic);
-//        return service.feeds(data);
-//    }
-//
-//    /**
-//     * 获取动态，传UserId数据就是该用户的，不传就是全部
-//     * @param userId
-//     * @return
-//     */
-//    public Observable<ListResponse<Feed>> feeds(String userId,int pageSize) {
-//        HashMap<String, String> data = new HashMap<>();
-//        if (StringUtils.isNotBlank(userId)) {
-//            data.put(Consts.USER_ID,userId);
-//        }
-//        data.put(Consts.PAGE,String.valueOf(pageSize));
-//        return service.feeds(data);
-//    }
-//
-//    public Observable<DetailResponse<Feed>> createFeed(FeedParam data) {
-//        return service.createFeed(data);
-//    }
+
+    public Observable<ListResponse<Feed>> feedsByTopic(String topic) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put(Consts.TOPIC,topic);
+        return service.feeds(data);
+    }
+
+    /**
+     * 获取动态，传UserId数据就是该用户的，不传就是全部
+     * @param userId
+     * @return
+     */
+    public Observable<ListResponse<Feed>> feeds(String userId,int pageSize) {
+        HashMap<String, String> data = new HashMap<>();
+        if (StringUtils.isNotBlank(userId)) {
+            data.put(Consts.USER_ID,userId);
+        }
+        data.put(Consts.PAGE,String.valueOf(pageSize));
+        return service.feeds(data);
+    }
+
+    public Observable<DetailResponse<Feed>> createFeed(FeedParam data) {
+        return service.createFeed(data);
+    }
 
     public Observable<ListResponse<Comment>> comments(Map<String,String> data) {
         return service.comments(data);
