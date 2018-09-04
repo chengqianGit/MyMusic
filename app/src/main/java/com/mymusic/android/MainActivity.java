@@ -1,10 +1,12 @@
 package com.mymusic.android;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends BaseMusicPlayerActivity implements View.OnClickListener ,ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseMusicPlayerActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
     private DrawerLayout drawer;
 
@@ -56,6 +58,7 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
     private ImageView iv_video;
 
     private LinearLayout ll_settings;
+    private LinearLayout ll_exit;
 
     private LinearLayout ll_my_friend;
     private LinearLayout ll_message_container;
@@ -83,7 +86,9 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         iv_recommend = findViewById(R.id.iv_recommend);
         iv_video = findViewById(R.id.iv_video);
 
-        ll_settings = findViewById(R.id.ll_settings);
+        ll_settings = findViewById(R.id.ll_settings);//设置按钮
+        ll_exit = findViewById(R.id.ll_exit);//退出按钮
+
         ll_my_friend = findViewById(R.id.ll_my_friend);
         ll_message_container = findViewById(R.id.ll_message_container);
 
@@ -159,6 +164,7 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         iv_video.setOnClickListener(this);
 
         ll_settings.setOnClickListener(this);
+        ll_exit.setOnClickListener(this);
 
         ll_my_friend.setOnClickListener(this);
         ll_message_container.setOnClickListener(this);
@@ -166,6 +172,7 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         //默认选中第二个页面，设置监听器在选择就会调用监听器
         vp.setCurrentItem(1);
     }
+
     private void processIntent(Intent intent) {
         if (Consts.ACTION_MESSAGE.equals(intent.getAction())) {
             //要跳转到聊天界面
@@ -182,12 +189,16 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         showUserInfo();
         processIntent(intent);
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_settings:
                 startActivity(SettingsActivity.class);
                 closeDrawer();
+                break;
+            case R.id.ll_exit:
+                exitProgram();
                 break;
             case R.id.iv_music:
                 vp.setCurrentItem(0, true);
@@ -216,6 +227,34 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
                 break;
         }
     }
+
+    /**
+     * 弹出退出程序对话框，点击确定退出程序
+     */
+    private void exitProgram() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("消息提醒");
+        builder.setMessage("确定要退出吗");
+        builder.setPositiveButton("确定", diaListener);
+        builder.setNegativeButton("取消",diaListener);
+        builder.show();
+    }
+
+    DialogInterface.OnClickListener diaListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            switch (i) {
+                case AlertDialog.BUTTON_POSITIVE:
+                    finish();
+                    break;
+                case AlertDialog.BUTTON_NEGATIVE:
+                    //
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
