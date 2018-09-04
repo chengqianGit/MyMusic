@@ -54,7 +54,7 @@ public class LoginActivity extends BaseCommonActivity implements View.OnClickLis
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginSuccessEvent(LoginSuccessEvent event) {
         //连接融云服务器
-        //((AppContext)getApplication()).imConnect();
+        ((AppContext)getApplication()).imConnect();
         finish();
     }
 

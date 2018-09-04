@@ -14,7 +14,9 @@ import android.widget.TextView;
 import com.mymusic.android.activity.BaseMusicPlayerActivity;
 import com.mymusic.android.activity.BaseTitleActivity;
 import com.mymusic.android.activity.LoginActivity;
+import com.mymusic.android.activity.MessageActivity;
 import com.mymusic.android.activity.MusicPlayerActivity;
+import com.mymusic.android.activity.MyFriendActivity;
 import com.mymusic.android.activity.SettingsActivity;
 import com.mymusic.android.activity.UserDetailActivity;
 import com.mymusic.android.adapter.HomeAdapter;
@@ -55,6 +57,9 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
 
     private LinearLayout ll_settings;
 
+    private LinearLayout ll_my_friend;
+    private LinearLayout ll_message_container;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,8 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
         iv_video = findViewById(R.id.iv_video);
 
         ll_settings = findViewById(R.id.ll_settings);
+        ll_my_friend = findViewById(R.id.ll_my_friend);
+        ll_message_container = findViewById(R.id.ll_message_container);
 
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -153,6 +160,8 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
 
         ll_settings.setOnClickListener(this);
 
+        ll_my_friend.setOnClickListener(this);
+        ll_message_container.setOnClickListener(this);
         vp.addOnPageChangeListener(this);
         //默认选中第二个页面，设置监听器在选择就会调用监听器
         vp.setCurrentItem(1);
@@ -193,14 +202,14 @@ public class MainActivity extends BaseMusicPlayerActivity implements View.OnClic
                 avatarClick();
                 closeDrawer();
                 break;
-//            case R.id.ll_my_friend:
-//                //startActivity(MyFriendActivity.class);
-//                closeDrawer();
-//                break;
-//            case R.id.ll_message_container:
-//                //startActivity(MessageActivity.class);
-//                closeDrawer();
-//                break;
+            case R.id.ll_my_friend:
+                startActivity(MyFriendActivity.class);
+                closeDrawer();
+                break;
+            case R.id.ll_message_container:
+                startActivity(MessageActivity.class);
+                closeDrawer();
+                break;
             default:
                 //如果当前界面没有处理，就调用父类的方法
                 super.onClick(v);

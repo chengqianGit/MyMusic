@@ -122,10 +122,35 @@
             android:name=".activity.TopicDetailActivity"
             android:label="@string/topic_detail"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.VideoDetailActivity"
-            android:label=""
+        <activity
+            android:name=".activity.VideoDetailActivity"
             android:configChanges="orientation|keyboard|locale|screenSize|layoutDirection"
-            android:theme="@style/AppTheme.NoActionBar.Black"></activity>
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar.Black" />
+        <activity
+            android:name=".activity.MyFriendActivity"
+            android:label="@string/my_friend"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- rong im -->
+        <receiver
+            android:name=".receiver.MessageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
+                <action android:name="io.rong.push.intent.MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
+                <action android:name="io.rong.push.intent.THIRD_PARTY_PUSH_STATE" />
+            </intent-filter>
+        </receiver>
+        <!-- end rong im -->
+        <activity
+            android:name=".activity.MessageActivity"
+            android:label="@string/my_message"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.ConversationActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

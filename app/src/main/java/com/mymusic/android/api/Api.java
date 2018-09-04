@@ -254,16 +254,16 @@ public class Api {
         }
         return service.following(id,data);
     }
-//
-//    public Observable<ListResponse<User>> myFans(String id,String nickname) {
-//        HashMap<String, String> data = new HashMap<>();
-//
-//        //根据nickname查找
-//        if (StringUtils.isNotEmpty(nickname)) {
-//            data.put(Consts.FILTER, nickname);
-//        }
-//        return service.followers(id,data);
-//    }
+
+    public Observable<ListResponse<User>> myFans(String id,String nickname) {
+        HashMap<String, String> data = new HashMap<>();
+
+        //根据nickname查找
+        if (StringUtils.isNotEmpty(nickname)) {
+            data.put(Consts.FILTER, nickname);
+        }
+        return service.followers(id,data);
+    }
 //
     public Observable<ListResponse<Topic>> topics(String title) {
         HashMap<String, String> data = new HashMap<>();

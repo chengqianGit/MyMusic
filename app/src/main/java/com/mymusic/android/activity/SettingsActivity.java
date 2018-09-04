@@ -28,7 +28,7 @@ public class SettingsActivity extends BaseTitleActivity {
     @OnClick(R.id.bt_logout)
     public void bt_logout() {
         sp.logout();
-        //AppContext.logout();
+        AppContext.logout();
 
         //Tencent tencent = Tencent.createInstance(Consts.QQ_KEY, this.getApplicationContext());
         //tencent.logout(this);

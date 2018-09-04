@@ -120,6 +120,9 @@ dependencies {
     //emoji控件
     implementation "com.android.support:support-emoji-appcompat:$rootProject.androidSupportVersion"
 
+    //    image select
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+
     //    multi dex
     implementation 'com.android.support:multidex:1.0.1'
 
@@ -127,7 +130,7 @@ dependencies {
     implementation project(':downloader')
     //    rong im
 
-    //implementation project(':IMLib')
+    implementation project(':IMLib')
 
     //    banner
     implementation 'com.youth.banner:banner:1.4.10'
