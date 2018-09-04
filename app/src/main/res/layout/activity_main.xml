@@ -210,7 +210,8 @@
                     android:text="设置" />
             </LinearLayout>
 
-            <LinearLayout style="@style/ItemContainerLarge">
+            <LinearLayout style="@style/ItemContainerLarge"
+                android:id="@+id/ll_exit">
 
                 <ImageView
                     style="@style/ItemIconLarge"
